@@ -1,0 +1,84 @@
+
+.icon {  
+    float: right;
+    font-size:500%;
+    position: absolute;
+    top:0rem;
+    right: -0.1em;
+    /* rem;  */
+    /*opacity: .16;*/
+  }
+  
+  
+  #container
+  {
+    width: 100%;
+    display: flex;
+    padding-bottom: 10px;
+  }
+  
+  .grey-dark
+  {
+    /*background: #495057;*/
+    background: #082435;
+    color: #efefef;
+    width: 33%;
+    margin-left: 0.5em;
+  }
+  
+  .red-gradient {
+    background: linear-gradient(180deg, rgba(207,82,82,1) 0%, rgba(121,9,9,1) 80%);
+    color: #fff;
+  }
+  .red {
+    /*background: #a83b3b;*/
+    color: #fff;
+    width: 33%;
+    margin-left: 0.5em;
+    background: #082435;
+  }
+  
+  
+  .purple
+  {
+    /*background: #886ab5;*/
+    background: #082435;
+    color: #fff;
+    width: 33%;
+    margin-left: 0.5em;
+  }
+  
+  .orange {
+    /*background: #ffc241;*/
+    background: #082435;
+    color: #fff;
+    width: 33%;
+    /*margin-left: 0.5em;*/
+  }
+  
+  .kpi-card
+  {
+    overflow: hidden;
+    position: relative;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.75);;
+    display: inline-block;
+    /* float: left; */
+    padding: 1em;
+    border-radius: 0.3em;
+    font-family: sans-serif;  
+    /*width: 240px;
+    margin-left: 0.5em;*/
+    margin-top: 0.5em;
+  }
+  
+  .card-value {
+    display: block;
+    font-size: 200%;  
+    font-weight: bolder;
+  }
+  
+  .card-text {
+    display:block;
+    font-size: 150%;
+    padding-left: 0.2em;
+  }

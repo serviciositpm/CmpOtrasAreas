@@ -1,0 +1,303 @@
+table {
+    border-spacing: 1;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 6px;
+    overflow: hidden;
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    font-size: 20px;
+  }
+  table * {
+    position: relative;
+  }
+  table td, table th {
+    padding-left: 8px;
+  }
+  table thead tr {
+    height: 60px;
+    background: #082435;
+    font-size: 16px;
+    color: white;
+  }
+  table tbody tr {
+    height: 48px;
+    border-bottom: 2px solid #8c8f88;
+  }
+  table tbody tr:last-child {
+    border: 0;
+  }
+  table td, table th {
+    text-align: center;
+  }
+  table td.l, table th.l {
+    text-align: right;
+  }
+  table td.c, table th.c {
+    text-align: center;
+  }
+  table td.r, table th.r {
+    text-align: center;
+  }
+  
+  @media screen and (max-width: 35.5em) {
+    table {
+      display: block;
+    }
+    table > *, table tr, table td, table th {
+      display: block;
+    }
+    table thead {
+      display: none;
+    }
+    table tbody tr {
+      height: auto;
+      padding: 8px 0;
+    }
+    table tbody tr td {
+      padding-left: 45%;
+      margin-bottom: 12px;
+    }
+    table tbody tr td:last-child {
+      margin-bottom: 0;
+    }
+    table tbody tr td:before {
+      position: absolute;
+      font-weight: 700;
+      width: 40%;
+      left: 10px;
+      top: 0;
+    }
+    
+  }
+body {
+  background: #cacec6;
+  font: 400 14px "Calibri", "Arial";
+  padding: 1px;
+}
+
+blockquote {
+  color: white;
+  text-align: center;
+}
+.ancho_celdas_normales{
+  /* width: 9%; */
+  width: auto;
+}
+.ancho_celdas_barra{
+  /* width: 4%; */
+  width: auto;
+}
+.titulo_tabla_dash{
+  font-size: 15px;
+  background-color: hsl(0, 0%, 98%);
+  width: 100%;
+  border-radius: 5px;
+  border-top: 3px solid hsl(2, 85%, 43%);
+  box-shadow: 0px 30px 40px -20px hsl(229, 6%, 66%);
+  display: flex;
+  margin-bottom: 10px;
+  height: 50px;
+}
+.titulo_tabla_dash h2{
+  color: hsl(234, 12%, 34%);
+  font-weight: 600;
+  margin-left: 10px;
+}
+.titulo_tabla_page {
+  margin-left: 77% !important;
+}
+.contenedor_titulo{
+  width: 100%;
+  box-shadow: 0 0 15px rgb(0 0 0 / 20%);
+  display: flex;
+  height: 100px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background-color: white;
+  border-top: 4px solid hsl(0, 4.7%, 41.6%);
+}
+.div_container_titulo{
+  flex-shrink: 0;
+  flex-basis: 30%;
+  
+}
+.div_container_titulo img{
+  object-fit: cover;
+  height: 70%;
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 15px;
+  margin-left: 10px;
+}
+.contenido_titulo{
+  flex-basis: auto;
+  margin-left: 50%;
+}
+.titulo_principal{
+  font-weight: 800;
+  color: #c12222;
+  font-size: 2.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.skill {
+  /*margin-bottom: 35px;*/
+  position: relative;
+  overflow-x:hidden;
+
+}
+.skill > p {
+  font-size: 15px;
+  font-weight: 400;
+  color: #1a1716;
+  margin: 0;
+  text-align: left !important;
+  padding-left: 9px;
+}
+/*
+.skill:before{
+  width: 100%;
+  height: 5px;
+  content: "";
+  display: block;
+  position: absolute;
+  background: #959595;
+  bottom: 0;
+}
+
+.skill-bar {
+  width: 50%;
+  height: 5px;
+  background:#6a2ff4;
+  display: block;
+  position: relative;
+}
+*/
+/* SKILL 1 */
+.skill1{
+  width: 95%;
+
+}
+.skill-bar span{
+  position: absolute;
+  /*border-top: 5px solid #f4392f;*/
+  top: -30px;
+  padding: 0;
+  font-size: 16px;
+  padding: 6px 0;
+  font-weight: 400;
+  position: absolute;
+  
+}
+.skill-bar {
+  position: relative;
+
+}
+
+.skill1 .skill-count1 {
+  right: 0;
+}
+/* SKILL 2 */
+.skill2{
+  width: 85%;
+}
+
+.skill2 .skill-count2 {
+  right: 0;
+}
+/* SKILL 3 */
+.skill3{
+  width: 75%;
+}
+.skill3 .skill-count3 {
+  right: 0;
+}
+
+/* SKILL 4 */
+.skill4{
+  width: 65%
+}
+
+.skill4 .skill-count4 {
+  right: 0;
+}
+
+/* SKILL 5 */
+.skill5{
+  width: 80%;
+}
+
+.skill5 .skill-count5 {
+  right: 0;
+}
+
+/* SKILL 6 */
+.skill6{
+  width: 96%
+}
+
+.skill6 .skill-count6 {
+  right: 0;
+}
+
+
+/*--- Indicadores ---*/
+.btn-circle {
+  width: 45px;
+  height: 45px;
+  line-height: 45px;
+  text-align: center;
+  padding: 0;
+  border-radius: 100%;
+}
+
+.btn-circle i {
+  position: relative;
+  top: -1px;
+}
+
+.btn-circle-sm {
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  font-size: 0.9rem;
+}
+
+.btn-circle-lg {
+  width: 55px;
+  height: 55px;
+  line-height: 55px;
+  font-size: 1.1rem;
+}
+
+.btn-circle-xl {
+  width: 70px;
+  height: 70px;
+  line-height: 70px;
+  font-size: 1.3rem;
+}
+.btn-success {
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+}
+.btn-warning {
+  color: #212529;
+  background-color: #ffc107;
+  border-color: #ffc107;
+}
+.btn-danger{
+  color: #fff;
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+.btn-blue{
+  color: #fff;
+  background-color: #0000FF;
+  border-color: #0000FF;
+}

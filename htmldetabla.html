@@ -1,0 +1,446 @@
+<table>
+            <thead>
+                <tr>
+                    <th class="ancho_celdas_normales"> Fecha Llegada Planta </th>
+                    <th class="ancho_celdas_normales"> # Ingreso</th>
+                    <th class="ancho_celdas_normales"> # Guia</th>
+                    <!-- <th class="ancho_celdas_normales"> Secuencia </th> -->
+                    <th class="ancho_celdas_normales"> Proveedor </th>
+                    <th class="ancho_celdas_normales"> # Pisc </th>
+                    <th class="ancho_celdas_normales"> Orden Pesca </th>
+                    <th class="ancho_celdas_normales"> Kilos </th>
+                    <th class="ancho_celdas_normales"> Gramaje </th>
+                    <th class="ancho_celdas_normales"> Rendimiento </th>
+                    <th class="ancho_celdas_normales">  </th>
+                    <th class="ancho_celdas_normales"> T. Tratamiento </th>
+                    <th class="ancho_celdas_normales"> T. Max Trat. Ini. </th>
+                    <th class="ancho_celdas_barra">  </th>
+                    <th class="ancho_celdas_normales"> Prom. Resid. </th>
+                    <th class="ancho_celdas_normales"> T. Pesca Planta</th>
+                    <th class="ancho_celdas_normales"> T. Esp. Recepciòn </th>
+                    <th class="ancho_celdas_barra">     </th>
+                    <th class="ancho_celdas_normales"> T. Tot. Espera </th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+                    $sql="Select	Top 50 
+                                    IngresoSeguridad			                                                    ,
+                                    NoGuia						                                                    ,
+                                    --Sec							                                                ,
+                                    Proveedor					                                                    ,
+                                    Piscina						                                                    ,
+                                    OrdenPesca                                                                      ,
+                                    FechaLLegadaPlanta			                                                    ,
+                                    Kilos						                                                    ,
+                                    [Gramaje Calidad] GramajeCalidad                                                ,
+                                    TiempoTratamiento                                                               ,
+                                    Case 
+										When [Fecha maxima Tratamiento Inicial] <>''
+										 Then Convert(Char(5),Cast([Fecha maxima Tratamiento Inicial] As Time)) 
+										Else
+											''
+									End 'TiempoMax'                                                                 ,
+                                    TiempoInicioPescaPlanta		                                                    ,
+                                    TiempoEsperaRecepcionPlanta	                                                    ,
+                                    Case 
+                                        When	TiempoEsperaRecepcionPlanta	>='00:00'	And	TiempoEsperaRecepcionPlanta	<=	'04:59'
+                                            Then	10 --Verde 
+                                        When	TiempoEsperaRecepcionPlanta	>='05:00'	And	TiempoEsperaRecepcionPlanta	<=	'07:59'
+                                            Then	20 --Amarillo
+                                        When	TiempoEsperaRecepcionPlanta	>'08:00'
+                                            Then	30	--Rojo
+                                    End	'Indicador'                                                                 ,
+                                    Case 
+                                        When TiempoHrasInterrupcionTratamientoInicial > TiempoTratamiento And [TipoTratamiento]='Directo' And HayEscurrido='S'
+                                            Then	10 --Rojo
+                                        When TiempoTratamiento - TiempoHrasInterrupcionTratamientoInicial <= 3 And [TipoTratamiento]='Directo' And HayEscurrido='S'
+                                            Then	20 --Amarillo
+                                        When [TipoTratamiento]='Tinas' --And HayEscurrido='S'
+                                            Then	2000
+                                        When [TipoTratamiento]='Directo' And HayEscurrido='N'
+                                            Then dbo.ObDifFechasenHoras(convert(date,getdate()),convert(char(5),getdate(),108),convert(date,[Fecha maxima Tratamiento Inicial])  ,convert(char(5),convert(datetime,[Fecha maxima Tratamiento Inicial]) ,108))   
+										When HayEscurrido='S'
+											Then	30 --Verde
+                                        When HayEscurrido='N'
+											Then 3000
+                                            
+                                    End 'Tiempo'                                                                   ,
+                                    Case
+                                        When    EstadoAnalisis = 'P'
+                                            Then '*'
+                                        Else
+                                            ''
+                                    End 'EstadoAnalisis'                                                            ,
+                                    /*
+                                    Case
+                                        When [TipoTratamiento]='Directo' And HayEscurrido=''
+                                            Then dbo.ObDifFechasenHoras(convert(date,getdate()),convert(char(5),getdate(),108),convert(date,[Fecha maxima Tratamiento Inicial])  ,convert(char(5),convert(datetime,[Fecha maxima Tratamiento Inicial]) ,108))   
+                                        Else
+                                            2000
+                                    End 'Tiempo'                                                                      ,
+                                    */
+                                    [Rendimiento Calidad] 'Rendimiento'                                               ,
+                                    [Promedio Residual] 'PromedioResidual'                                            ,
+                                    [Tiempo Total Espera] 'TiempoTotalEspera'                                         ,
+                                    HayEscurrido                                                                      ,
+                                    [TipoTratamiento] 'TipTrat'
+                                    
+                            From Vsp_DatosRecepcion Where Tipo	='Saldo' And Proceso = 'CC X CC'
+                            Order By FechaLLegadaPlanta,IngresoSeguridad  ";
+                    $result=sqlsrv_query($con,$sql);
+                    while($mostrar=sqlsrv_fetch_array($result)){
+                ?>
+
+                <tr>
+                    <td><?php echo $mostrar['FechaLLegadaPlanta']->format('d/m/Y') ?></td>
+                    <td><?php echo $mostrar['IngresoSeguridad'] ?></td>
+                    <td><?php $Date = $mostrar['NoGuia']; echo $Date; ?></td>
+                    <td><?php echo $mostrar['Proveedor'] ?></td>
+                    <td><?php echo $mostrar['Piscina'] ?></td>
+                    <td><?php echo $mostrar['OrdenPesca'] ?></td>
+                    <td><?php echo number_format($mostrar['Kilos'],2) ?></td>
+                    <td><?php echo number_format($mostrar['GramajeCalidad'],0) ?></td>     
+                    <td><?php echo number_format($mostrar['Rendimiento'],2) ?></td>                                        
+                    <td><?php echo $mostrar['EstadoAnalisis'] ?></td>                                        
+                    <td><?php echo $mostrar['TiempoTratamiento'] ?></td>
+                    <td><?php echo $mostrar['TiempoMax'] ?></td>
+                    <td>
+                        <?php 
+                            $valortiempo = $mostrar['Tiempo'];
+                            $hayescurrido= $mostrar['HayEscurrido'];
+                            $tipoTratamiento = $mostrar['TipTrat'];
+                            if($hayescurrido=='S' && $tipoTratamiento <> 'Tinas'){
+                                //if($valortiempo>3 && $valortiempo<>2000){
+                                if($valortiempo==30){ //Rojo
+                                    echo "
+                                    <div  class='btn btn-success btn-circle btn-circle-sm m-1'>
+                                        
+                                    </div>
+                                    ";
+                                    /* <i class='fa fa-check'></i> */
+                                    
+
+                                }
+                                if($valortiempo==20){ //Amarillo
+                                //if($valortiempo<3 && $valortiempo>0 && $valortiempo<>2000){        
+                                    echo "
+                                    <div  class='btn btn-warning btn-circle btn-circle-sm m-1'>
+                                    </div>
+                                    
+                                    ";
+                                    /* <i class='fa fa-tags'></i> */
+                                    
+                                }
+                                if($valortiempo==10){ //Verde
+                                //if($valortiempo<=0 && $valortiempo<>2000){        
+                                    echo "
+                                    <div  class='btn btn-danger btn-circle btn-circle-sm m-1'>
+                                    </div>";
+                                    /* <i class='fa fa-times'></i> */
+                                }
+                            }if($hayescurrido=='N' && $tipoTratamiento <> 'Tinas'){
+                                //Rojo
+                                if($valortiempo>3 && $valortiempo<>3000){
+                                    
+                                        echo "
+                                        <div  class='btn btn-success btn-circle btn-circle-sm m-1'>
+                                            
+                                        </div>
+                                        ";
+                                        /* <i class='fa fa-check'></i> */
+                                        
+    
+                                    }
+                                     //Amarillo
+                                    if($valortiempo<3 && $valortiempo>0 && $valortiempo<>3000){        
+                                        echo "
+                                        <div  class='btn btn-warning btn-circle btn-circle-sm m-1'>
+                                        </div>
+                                        
+                                        ";
+                                        /* <i class='fa fa-tags'></i> */
+                                        
+                                    }
+                                     //Verde
+                                    if($valortiempo<=0 && $valortiempo<>3000){        
+                                        echo "
+                                        <div  class='btn btn-danger btn-circle btn-circle-sm m-1'>
+                                        </div>";
+                                        /* <i class='fa fa-times'></i> */
+                                    }
+                            }
+                            
+                            
+                        ?>
+                        
+                        
+                    </td>
+                    <td><?php echo number_format($mostrar['PromedioResidual'],0) ?></td>                                        
+                    <td><?php echo $mostrar['TiempoInicioPescaPlanta'] ?></td>
+                    <td><?php echo $mostrar['TiempoEsperaRecepcionPlanta'] ?></td>
+                    
+                    <td>
+                        <?php 
+                            $porcentaje = $mostrar['Indicador'];
+                            if($porcentaje==10){
+                                echo "
+                                <div  class='btn btn-success btn-circle btn-circle-sm m-1'>
+                                    
+                                </div>
+                                ";
+                                /* <i class='fa fa-check'></i> */
+                                
+
+                            }
+                            if($porcentaje==20){        
+                                echo "
+                                <div  class='btn btn-warning btn-circle btn-circle-sm m-1'>
+                                </div>
+                                
+                                ";
+                                /* <i class='fa fa-tags'></i> */
+                                
+                            }
+                            if($porcentaje==30){        
+                                echo "
+                                <div  class='btn btn-danger btn-circle btn-circle-sm m-1'>
+                                </div>";
+                                /* <i class='fa fa-times'></i> */
+                            }
+                            
+                        ?>
+                        
+                        
+                    </td>
+                    <td><?php echo number_format($mostrar['TiempoTotalEspera'],2) ?></td>
+
+
+                    
+                    
+                </tr>
+                <?php 
+                }
+                ?>
+
+
+                <!--
+                <tr>
+                    <td> 22/04/2022 </td>
+                    <td> 10852 </td>
+                    <td> 10:20 </td>
+                    <td> PescanoVa France </td>
+                    <td> A_Bajana </td>
+                    <td> 8 </td>
+                    <td> Viernes </td>
+                    <td> 2500/3000 </td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="js-completed-bar completed-bar" data-complete="70" style="width: 80%; opacity: 1;">
+                                <hr class="completed-bar__dashed">
+                                <i class="fas fa-truck-moving completed-bar__truck"></i>
+                            </div>
+                        </div>
+                        
+                    </td>
+                    
+                    
+                </tr>
+                <tr>
+                    <td> 22/04/2022 </td>
+                    <td> 10852 </td>
+                    <td> 10:20 </td>
+                    <td> PescanoVa France </td>
+                    <td> A_Bajana </td>
+                    <td> 8 </td>
+                    <td> Viernes </td>
+                    <td> 2500/3000 </td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="js-completed-bar completed-bar-amarillo" data-complete="70" style="width: 50%; opacity: 1;">
+                                <hr class="completed-bar-amarillo__dashed">
+                                <i class="fas fa-truck-moving completed-bar-amarillo__truck"></i>
+                            </div>
+                        </div>
+                        
+                    </td>
+                    
+                    
+                </tr>
+                <tr>
+                    <td> 22/04/2022 </td>
+                    <td> 10852 </td>
+                    <td> 10:20 </td>
+                    <td> PescanoVa France </td>
+                    <td> A_Bajana </td>
+                    <td> 8 </td>
+                    <td> Viernes </td>
+                    <td> 2500/3000 </td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="js-completed-bar completed-bar" data-complete="70" style="width: 30%; opacity: 1;">
+                                <hr class="completed-bar__dashed">
+                                <i class="fas fa-truck-moving completed-bar__truck"></i>
+                            </div>
+                        </div>
+                        
+                        
+                    </td>
+                    
+                    
+                </tr>
+                <tr>
+                    <td> 22/04/2022 </td>
+                    <td> 10852 </td>
+                    <td> 10:20 </td>
+                    <td> PescanoVa France </td>
+                    <td> A_Bajana </td>
+                    <td> 8 </td>
+                    <td> Viernes </td>
+                    <td> 2500/3000 </td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="js-completed-bar completed-bar-amarillo" data-complete="70" style="width: 60%; opacity: 1;">
+                                <hr class="completed-bar-amarillo__dashed">
+                                <i class="fas fa-truck-moving completed-bar-amarillo__truck"></i>
+                            </div>
+                        </div>
+                        
+                    </td>
+                    
+                    
+                </tr>
+                <tr>
+                    <td> 22/04/2022 </td>
+                    <td> 10852 </td>
+                    <td> 10:20 </td>
+                    <td> PescanoVa France </td>
+                    <td> A_Bajana </td>
+                    <td> 8 </td>
+                    <td> Viernes </td>
+                    <td> 2500/3000 </td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="js-completed-bar completed-bar-rojo" data-complete="70" style="width: 0%; opacity: 1;">
+                                <hr class="completed-bar-rojo__dashed">
+                                <i class="fas fa-truck-moving completed-bar-rojo__truck"></i>
+                            </div>
+                        </div>
+                        
+                    </td>
+                    
+                    
+                </tr>
+                <tr>
+                    <td> 22/04/2022 </td>
+                    <td> 10852 </td>
+                    <td> 10:20 </td>
+                    <td> PescanoVa France </td>
+                    <td> A_Bajana </td>
+                    <td> 8 </td>
+                    <td> Viernes </td>
+                    <td> 2500/3000 </td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="js-completed-bar completed-bar-rojo" data-complete="70" style="width: 90%; opacity: 1;">
+                                <hr class="completed-bar-rojo__dashed">
+                                <i class="fas fa-truck-moving completed-bar-rojo__truck"></i>
+                            </div>
+                        </div>
+                        
+                    </td>
+                    
+                    
+                </tr>
+                <tr>
+                    <td> 22/04/2022 </td>
+                    <td> 10852 </td>
+                    <td> 10:20 </td>
+                    <td> PescanoVa France </td>
+                    <td> A_Bajana </td>
+                    <td> 8 </td>
+                    <td> Viernes </td>
+                    <td> 2500/3000 </td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="js-completed-bar completed-bar-rojo" data-complete="70" style="width: 5%; opacity: 1;">
+                                <hr class="completed-bar-rojo__dashed">
+                                <i class="fas fa-truck-moving completed-bar-rojo__truck"></i>
+                            </div>
+                        </div>
+                        
+                    </td>
+                    
+                    
+                </tr>
+                <tr>
+                    <td> 22/04/2022 </td>
+                    <td> 10852 </td>
+                    <td> 10:20 </td>
+                    <td> PescanoVa France </td>
+                    <td> A_Bajana </td>
+                    <td> 8 </td>
+                    <td> Viernes </td>
+                    <td> 2500/3000 </td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="js-completed-bar completed-bar-rojo" data-complete="70" style="width: 5%; opacity: 1;">
+                                <hr class="completed-bar-rojo__dashed">
+                                <i class="fas fa-truck-moving completed-bar-rojo__truck"></i>
+                            </div>
+                        </div>
+                        
+                    </td>
+                    
+                    
+                </tr>
+                <tr>
+                    <td> 22/04/2022 </td>
+                    <td> 10852 </td>
+                    <td> 10:20 </td>
+                    <td> PescanoVa France </td>
+                    <td> A_Bajana </td>
+                    <td> 8 </td>
+                    <td> Viernes </td>
+                    <td> 2500/3000 </td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="js-completed-bar completed-bar-rojo" data-complete="70" style="width: 5%; opacity: 1;">
+                                <hr class="completed-bar-rojo__dashed">
+                                <i class="fas fa-truck-moving completed-bar-rojo__truck"></i>
+                            </div>
+                        </div>
+                        
+                    </td>
+                    
+                    
+                </tr>
+                <tr>
+                    <td> 22/04/2022 </td>
+                    <td> 10852 </td>
+                    <td> 10:20 </td>
+                    <td> PescanoVa France </td>
+                    <td> A_Bajana </td>
+                    <td> 8 </td>
+                    <td> Viernes </td>
+                    <td> 2500/3000 </td>
+                    <td>
+                        <div class="progress-bar">
+                            <div class="js-completed-bar completed-bar-rojo" data-complete="70" style="width: 5%; opacity: 1;">
+                                <hr class="completed-bar-rojo__dashed">
+                                <i class="fas fa-truck-moving completed-bar-rojo__truck"></i>
+                            </div>
+                        </div>
+                        
+                        
+                        
+                    </td>
+                    
+                    
+                </tr>
+                -->
+            </tbody>
+            
+            
+        </table>
