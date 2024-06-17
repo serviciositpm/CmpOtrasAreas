@@ -9,7 +9,7 @@
     $contador = $_POST['contador'];
     $cantFilas=0;
     //1.- Obtengo la cantidad de Registros
-    $sqlCantRows = "Select IsNull(Count(*),0) Cantidad From Vsp_DatosRecepcion Where Tipo	='Saldo' And Proceso = 'CC X CC'";
+    $sqlCantRows = "Select IsNull(Count(*),0) Cantidad From Vsp_DatosRecepcion Where Tipo	='Saldo' And Proceso = 'CC X CC' And TipoProceso =   'P'";
     $resultCantRows=sqlsrv_query($con,$sqlCantRows);
     while($mostrarCantRows=sqlsrv_fetch_array($resultCantRows)){
         $cantFilas=$mostrarCantRows['Cantidad'];
@@ -116,7 +116,10 @@
                         [Calidad Estado Cabezas] 'CalidadCabezas'                                         ,
                         [Trat. Cumplido] 'TratCumplido'
                         
-                From Vsp_DatosRecepcion Where Tipo	='Saldo' And Proceso = 'CC X CC' 
+                From Vsp_DatosRecepcion 
+                Where   Tipo	    =   'Saldo' 
+                And     Proceso     =   'CC X CC' 
+                And     TipoProceso =   'P'
                 Order By FechaLLegadaPlanta,IngresoSeguridad  
                 OFFSET $desde ROWS 
                 FETCH NEXT $per_page ROWS ONLY";
