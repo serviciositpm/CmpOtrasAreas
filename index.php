@@ -39,7 +39,9 @@
                             Then	'Día'
                             Else	'Noche'
                         End	 'Turno'		                                             ,
-                        (Select Sum(Kilos)  From Vsp_DatosRecepcion Where Tipo	='Saldo' And Proceso = 'CC X CC') 'TotKilos',
+                        (
+                            Select Sum(Kilos)  From Vsp_DatosRecepcion Where Tipo	='Saldo' And Proceso = 'CC X CC' And TipoProceso =   'P'
+                        ) 'TotKilos'                                                     ,
                         Right('00' + Ltrim(Rtrim(Day(GetDate()))),2) + ' de '	+	Case Month(GetDate())
 																						When 1	Then 'Enero'
 																						When 2	Then 'Febrero'
