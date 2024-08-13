@@ -114,7 +114,15 @@
                         HayEscurrido                                                                      ,
                         [TipoTratamiento] 'TipTrat'                                                       ,
                         [Calidad Estado Cabezas] 'CalidadCabezas'                                         ,
-                        [Trat. Cumplido] 'TratCumplido'
+                        [Trat. Cumplido] 'TratCumplido'                                                   ,
+                         Case 
+                            When [Tiempo Interrupcion Tratamiento Final]  <>''
+                                Then Convert(Char(5),Cast([Tiempo Interrupcion Tratamiento Final]  As Time)) 
+                            Else
+                                ''
+                        End 'TiempoFinalTrat'                                                             ,
+                        [valor máximo de sulfitos] 'ValMaxSulf'
+
                         
                 From Vsp_DatosRecepcion 
                 Where   Tipo	    =   'Saldo' 
@@ -127,48 +135,50 @@
         echo"<table>";
                 echo"<thead>";
                     echo"<tr>";
-                        echo"<th class='ancho_celdas_normales'> Fecha Llegada Planta </th>";
-                        echo"<th class='ancho_celdas_normales'> # Ingreso</th>";
-                        echo"<th class='ancho_celdas_normales'> # Guia</th>";
-                        echo"<th class='ancho_celdas_normales'> Proveedor </th>";
-                        echo"<th class='ancho_celdas_normales'> # Pisc </th>";
-                        echo"<th class='ancho_celdas_normales'> Orden Pesca </th>";
-                        echo"<th class='ancho_celdas_normales'> Kilos </th>";
-                        echo"<th class='ancho_celdas_normales'> Gramaje </th>";
-                        echo"<th class='ancho_celdas_normales'> Mudado </th>";
-                        echo"<th class='ancho_celdas_normales'> Flácido </th>";
-                        echo"<th class='ancho_celdas_normales'> Rendimiento </th>";
-                        echo"<th class='ancho_celdas_normales'> Cal.Est. Cab.</th>";
-                        echo"<th class='ancho_celdas_normales'>  </th>";
-                        echo"<th class='ancho_celdas_normales'> T. Tratamiento </th>";
-                        echo"<th class='ancho_celdas_normales'> T. Max Trat. Ini. </th>";
-                        echo"<th class='ancho_celdas_barra'> </th>";
-                        echo"<th class='ancho_celdas_normales'>  </th>";
-                        echo"<th class='ancho_celdas_normales'> Prom. Resid. </th>";
+                        echo"<th class='ancho_celdas_normales'> Fecha Llegada Planta </th>"; //1
+                        echo"<th class='ancho_celdas_normales'> # Ingreso</th>"; //2
+                        echo"<th class='ancho_celdas_normales'> # Guia</th>"; //3
+                        echo"<th class='ancho_celdas_normales'> Proveedor </th>"; //4
+                        echo"<th class='ancho_celdas_normales'> # Pisc </th>"; //5
+                        echo"<th class='ancho_celdas_normales'> Orden Pesca </th>"; //6
+                        echo"<th class='ancho_celdas_normales'> Kilos </th>"; //7
+                        echo"<th class='ancho_celdas_normales'> Gramaje </th>"; //8
+                        echo"<th class='ancho_celdas_normales'> Mudado </th>"; //9
+                        echo"<th class='ancho_celdas_normales'> Flácido </th>"; //10 
+                        echo"<th class='ancho_celdas_normales'> Rendimiento </th>"; //11
+                        echo"<th class='ancho_celdas_normales'> Cal.Est. Cab.</th>"; //12
+                        echo"<th class='ancho_celdas_normales'>  </th>"; //13
+                        echo"<th class='ancho_celdas_normales'> T. Tratamiento </th>"; //14
+                        echo"<th class='ancho_celdas_normales'> T. Max Trat. Ini. </th>"; //15
+                        echo"<th class='ancho_celdas_normales'> T. Max Trat. Fin. </th>"; // 16 +
+                        echo"<th class='ancho_celdas_barra'> </th>"; //17
+                        echo"<th class='ancho_celdas_normales'>  </th>"; //18
+                        echo"<th class='ancho_celdas_normales'> Val. Máx. Sulf. </th>"; //19 +
+                        echo"<th class='ancho_celdas_normales'> Prom. Resid. </th>"; //20
                         //echo"<th class='ancho_celdas_normales'> T. Pesca Planta</th>";
-                        echo"<th class='ancho_celdas_normales'> T. Esp. Recepciòn </th>";
-                        echo"<th class='ancho_celdas_barra'>    </th>";
-                        echo"<th class='ancho_celdas_normales'> T. Tot. Espera </th>";
+                        echo"<th class='ancho_celdas_normales'> T. Esp. Recepciòn </th>"; //21
+                        echo"<th class='ancho_celdas_barra'>    </th>"; //22
+                        echo"<th class='ancho_celdas_normales'> T. Tot. Espera </th>"; //23
                         
                     echo"</tr>";
                 echo"</thead>";
                 echo"<tbody>";
                     while($mostrar=sqlsrv_fetch_array($result)){
                         echo"<tr>";
-                            echo"<td>".$mostrar['FechaLLegadaPlanta']->format('d/m/Y')."</td>";
-                            echo"<td>".$mostrar['IngresoSeguridad']."</td>";
-                            echo"<td>".$mostrar['NoGuia']."</td>";
-                            echo"<td>".$mostrar['Proveedor']."</td>";
-                            echo"<td>".$mostrar['Piscina']."</td>";
-                            echo"<td>".$mostrar['OrdenPesca']."</td>";
-                            echo"<td>".number_format($mostrar['Kilos'],2)."</td>";
-                            echo"<td>".number_format($mostrar['GramajeCalidad'],0)."</td>";     
-                            echo"<td>".number_format($mostrar['Mudado'],2)."</td>";     
-                            echo"<td>".number_format($mostrar['Flacido'],2)."</td>";     
-                            echo"<td>".number_format($mostrar['Rendimiento'],2)."</td>";                                        
-                            echo"<td>".$mostrar['CalidadCabezas']."</td>";                                        
-                            $estadoAnalisis =   $mostrar['EstadoAnalisis'];
-                            $hayEscurrido=$mostrar['HayEscurrido'];
+                            echo"<td>".$mostrar['FechaLLegadaPlanta']->format('d/m/Y')."</td>"; //1
+                            echo"<td>".$mostrar['IngresoSeguridad']."</td>"; //2
+                            echo"<td>".$mostrar['NoGuia']."</td>"; //3
+                            echo"<td>".$mostrar['Proveedor']."</td>"; //4
+                            echo"<td>".$mostrar['Piscina']."</td>"; //5
+                            echo"<td>".$mostrar['OrdenPesca']."</td>"; //6
+                            echo"<td>".number_format($mostrar['Kilos'],2)."</td>"; //7
+                            echo"<td>".number_format($mostrar['GramajeCalidad'],0)."</td>";      //8
+                            echo"<td>".number_format($mostrar['Mudado'],2)."</td>";      //9
+                            echo"<td>".number_format($mostrar['Flacido'],2)."</td>";      //10
+                            echo"<td>".number_format($mostrar['Rendimiento'],2)."</td>";  //11                                      
+                            echo"<td>".$mostrar['CalidadCabezas']."</td>";     //12                                   
+                            $estadoAnalisis =   $mostrar['EstadoAnalisis']; //13
+                            $hayEscurrido=$mostrar['HayEscurrido']; //14
                             if($estadoAnalisis=='S'){
                                 echo"<td><i class='fas fa-info-circle'></i></td>";              
                                                       
@@ -176,9 +186,10 @@
                                 echo"<td>".$mostrar['EstadoAnalisis']."</td>";                                        
                             }
                             
-                            echo"<td>".$mostrar['TiempoTratamiento']."</td>";
-                            echo"<td>".$mostrar['TiempoMax']."</td>";
-                            echo"<td>";
+                            echo"<td>".$mostrar['TiempoTratamiento']."</td>"; //15
+                            echo"<td>".$mostrar['TiempoFinalTrat']."</td>"; //16
+                            echo"<td>".$mostrar['TiempoMax']."</td>"; //17
+                            echo"<td>"; //18
                                 $valortiempo = $mostrar['Tiempo'];
                                 $hayescurrido= $mostrar['HayEscurrido'];
                                 $tipoTratamiento = $mostrar['TipTrat'];
@@ -254,6 +265,7 @@
                             }else{
                                 echo"<td></td>";                                               
                             }
+                            echo"<td>".number_format($mostrar['ValMaxSulf'],0)."</td>";
                             echo"<td>".number_format($mostrar['PromedioResidual'],0)."</td>";
                             //echo"<td>".$mostrar['TiempoInicioPescaPlanta']."</td>";
                             echo"<td>".$mostrar['TiempoEsperaRecepcionPlanta']."</td>";
@@ -311,7 +323,9 @@
                         echo"<th class='ancho_celdas_normales'>  </th>";
                         echo"<th class='ancho_celdas_normales'> T. Tratamiento </th>";
                         echo"<th class='ancho_celdas_normales'> T. Max Trat. Ini. </th>";
+                        echo"<th class='ancho_celdas_normales'> T. Max Trat. Fin. </th>";
                         echo"<th class='ancho_celdas_barra'> </th>";
+                        echo"<th class='ancho_celdas_normales'> Val. Máx. Sulf. </th>"; 
                         echo"<th class='ancho_celdas_normales'> Prom. Resid. </th>";
                         //echo"<th class='ancho_celdas_normales'> T. Pesca Planta</th>";
                         echo"<th class='ancho_celdas_normales'> T. Esp. Recepciòn </th>";
@@ -344,3 +358,5 @@
     echo "</table>"; */
 
 
+
+    
