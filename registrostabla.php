@@ -115,9 +115,9 @@
                         [TipoTratamiento] 'TipTrat'                                                       ,
                         [Calidad Estado Cabezas] 'CalidadCabezas'                                         ,
                         [Trat. Cumplido] 'TratCumplido'                                                   ,
-                         Case 
-                            When [Tiempo Interrupcion Tratamiento Final]  <>''
-                                Then Convert(Char(5),Cast([Tiempo Interrupcion Tratamiento Final]  As Time)) 
+                        Case 
+                            When [Fecha maxima Tratamiento Final]  <>''
+                                Then Convert(Char(5),Cast([Fecha maxima Tratamiento Final]  As Time)) 
                             Else
                                 ''
                         End 'TiempoFinalTrat'                                                             ,
@@ -150,10 +150,10 @@
                         echo"<th class='ancho_celdas_normales'>  </th>"; //13
                         echo"<th class='ancho_celdas_normales'> T. Tratamiento </th>"; //14
                         echo"<th class='ancho_celdas_normales'> T. Max Trat. Ini. </th>"; //15
-                        echo"<th class='ancho_celdas_normales'> T. Max Trat. Fin. </th>"; // 16 +
+                        echo"<th class='ancho_celdas_normales'> T. Max Trat. Fin. </th>"; // 16 
                         echo"<th class='ancho_celdas_barra'> </th>"; //17
                         echo"<th class='ancho_celdas_normales'>  </th>"; //18
-                        echo"<th class='ancho_celdas_normales'> Val. Máx. Sulf. </th>"; //19 +
+                        echo"<th class='ancho_celdas_normales'> Val. Máx. Sulf. </th>"; //19 
                         echo"<th class='ancho_celdas_normales'> Prom. Resid. </th>"; //20
                         //echo"<th class='ancho_celdas_normales'> T. Pesca Planta</th>";
                         echo"<th class='ancho_celdas_normales'> T. Esp. Recepciòn </th>"; //21
@@ -177,8 +177,9 @@
                             echo"<td>".number_format($mostrar['Flacido'],2)."</td>";      //10
                             echo"<td>".number_format($mostrar['Rendimiento'],2)."</td>";  //11                                      
                             echo"<td>".$mostrar['CalidadCabezas']."</td>";     //12                                   
-                            $estadoAnalisis =   $mostrar['EstadoAnalisis']; //13
-                            $hayEscurrido=$mostrar['HayEscurrido']; //14
+                            $estadoAnalisis =   $mostrar['EstadoAnalisis']; 
+                            $hayEscurrido=$mostrar['HayEscurrido']; 
+                            //13
                             if($estadoAnalisis=='S'){
                                 echo"<td><i class='fas fa-info-circle'></i></td>";              
                                                       
@@ -186,10 +187,10 @@
                                 echo"<td>".$mostrar['EstadoAnalisis']."</td>";                                        
                             }
                             
-                            echo"<td>".$mostrar['TiempoTratamiento']."</td>"; //15
-                            echo"<td>".$mostrar['TiempoFinalTrat']."</td>"; //16
-                            echo"<td>".$mostrar['TiempoMax']."</td>"; //17
-                            echo"<td>"; //18
+                            echo"<td>".$mostrar['TiempoTratamiento']."</td>"; //14
+                            echo"<td>".$mostrar['TiempoMax']."</td>"; //16
+                            echo"<td>".$mostrar['TiempoFinalTrat']."</td>"; //15
+                            echo"<td>"; //17
                                 $valortiempo = $mostrar['Tiempo'];
                                 $hayescurrido= $mostrar['HayEscurrido'];
                                 $tipoTratamiento = $mostrar['TipTrat'];
