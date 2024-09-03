@@ -301,3 +301,28 @@ blockquote {
   background-color: #0000FF;
   border-color: #0000FF;
 }
+.status .active {
+  
+  background: #cff6dd;
+  color: #1fa750;
+  
+}
+.status span{
+  position: relative;
+  border-radius: 30px;
+  padding: 4px 25px 4px 25px;
+}
+
+.status .active::after {
+  background: #23bd5a;
+}
+
+.waiting {
+  background: #fdf5dd;
+  border-radius: 30px;
+  color: #cfa00c;
+}
+
+.waiting:after {
+  background: #f2be1d;
+}

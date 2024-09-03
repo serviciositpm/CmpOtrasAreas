@@ -25,7 +25,7 @@
             </div>
             <div class="contenido_titulo">
                 <h2 class="titulo_principal">
-                   <u>Datos Recepciòn </u> 
+                   <u>Datos Guías CMP </u> 
                 </h2>
             </div>
         </div>
@@ -119,16 +119,16 @@
             </div>
             
             
-            <div class="kpi-card red">
+            <!-- <div class="kpi-card red">
                 <span class="card-value">Total KG</span>
                 <span class="card-text">
                     <?php 
-                        echo number_format($totKilos,2); 
+                      //  echo number_format($totKilos,2); 
                     ?>
                 </span>
                 <i class="fas fa-weight-hanging icon"></i>
                 
-            </div>
+            </div> -->
         </div>
         <!-- <div class="titulo_tabla_dash">
             <h2>Detalle Guìas de Pesca (CC x CC)</h2>
@@ -153,7 +153,7 @@
                     });    
                 });
                 
-                setInterval(function(){
+                /* setInterval(function(){
                     $.ajax({
                         url: 'registrostabla.php',
                         type: 'post',
@@ -163,14 +163,14 @@
                             contador+=1;
                         }
                     });    
-                },10000);
+                },10000); */
 
-                function actualizar(){
+                /* function actualizar(){
                     contador = 1
                     location.reload(true);
-                }
+                } */
                 //Función para actualizar cada 5 segundos(5000 milisegundos)
-                setInterval("actualizar()",60000);
+                /* setInterval("actualizar()",60000); */
             </script>
         </div>
         

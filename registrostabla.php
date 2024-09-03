@@ -9,7 +9,7 @@
     $contador = $_POST['contador'];
     $cantFilas=0;
     //1.- Obtengo la cantidad de Registros
-    $sqlCantRows = "Select IsNull(Count(*),0) Cantidad From Vsp_DatosRecepcion Where Tipo	='Saldo' And Proceso = 'CC X CC' And TipoProceso =   'P'";
+    $sqlCantRows = "Select IsNull(Count(*),0) Cantidad From Vi_Guias_CMP";
     $resultCantRows=sqlsrv_query($con,$sqlCantRows);
     while($mostrarCantRows=sqlsrv_fetch_array($resultCantRows)){
         $cantFilas=$mostrarCantRows['Cantidad'];
@@ -47,256 +47,162 @@
         echo "          Cant Filas   ->".$per_page;
         */
         echo"<div class='titulo_tabla_dash'>";
-            echo"<h2>Detalle Guìas de Pesca (CC x CC)</h2>";
+            echo"<h2>Detalle Guìas de Pesca CMP </h2>";
             echo"<h2 class='titulo_tabla_page'>Pág ".$pagina." De ".$numeroPaginas."</h2>";
         echo"</div>";
 
-        $sql="  Select	IngresoSeguridad			                                                    ,
-                        NoGuia						                                                    ,
-                        --Sec							                                                ,
-                        Proveedor					                                                    ,
-                        Piscina						                                                    ,
-                        OrdenPesca                                                                      ,
-                        FechaLLegadaPlanta			                                                    ,
-                        Kilos						                                                    ,
-                        [Gramaje Calidad] GramajeCalidad                                                ,
-                        Mudado                                                                          ,
-                        Flacido                                                                         ,
-                        TiempoTratamiento                                                               ,
+        $sql="  Select  *                                                                                                                                       ,
                         Case 
-                            When [Fecha maxima Tratamiento Inicial] <>''
-                                Then Convert(Char(5),Cast([Fecha maxima Tratamiento Inicial] As Time)) 
-                            Else
-                                ''
-                        End 'TiempoMax'                                                                 ,
-                        --TiempoInicioPescaPlanta		                                                    ,
-                        TiempoEsperaRecepcionPlanta	                                                    ,
+                            When horaEstCamara Is Not Null And horaEstCamara <> '' And FechaLlegadaCamaronera Is Not Null And FechaLlegadaCamaronera <> ''
+                                Then DateDiff(Minute,Cast(horaEstCamara As DateTime),Cast(FechaLlegadaCamaronera As DateTime))
+                            Else 999999
+                        End AS DifMinutosSem1                                                                                                                   ,
                         Case 
-                            When	TiempoEsperaRecepcionPlanta	>='00:00'	And	TiempoEsperaRecepcionPlanta	<=	'04:59'
-                                Then	10 --Verde 
-                            When	TiempoEsperaRecepcionPlanta	>='05:00'	And	TiempoEsperaRecepcionPlanta	<=	'07:59'
-                                Then	20 --Amarillo
-                            When	TiempoEsperaRecepcionPlanta	>='08:00'
-                                Then	30	--Rojo
-                        End	'Indicador'                                                                 ,
+                            When FechaProgramadaLlegada Is Not Null And FechaProgramadaLlegada <> '' And FechaRealLlegada Is Not Null And FechaRealLlegada <> ''
+                                Then DateDiff(Minute,Cast(FechaProgramadaLlegada As DateTime),Cast(FechaRealLlegada As DateTime))
+                            Else 999999
+                        End AS DifMinutosSem2                                                                                                                   ,
+                        '' 'Hielo'                                                                                                                              ,
                         Case 
-                            When TiempoHrasInterrupcionTratamientoInicial > TiempoTratamiento And [TipoTratamiento]='Directo' And HayEscurrido='S'
-                                Then	10 --Rojo
-                            When TiempoTratamiento - TiempoHrasInterrupcionTratamientoInicial <= 3 And [TipoTratamiento]='Directo' And HayEscurrido='S'
-                                Then	20 --Amarillo
-                            When [TipoTratamiento]='Tinas' --And HayEscurrido='S'
-                                Then	2000
-                            When [TipoTratamiento]='Directo' And HayEscurrido='N'
-                                Then dbo.ObDifFechasenHoras(convert(date,getdate()),convert(char(5),getdate(),108),convert(date,[Fecha maxima Tratamiento Inicial])  ,convert(char(5),convert(datetime,[Fecha maxima Tratamiento Inicial]) ,108))   
-                            When HayEscurrido='S'
-                                Then	30 --Verde
-                            When HayEscurrido='N'
-                                Then 3000
-                            
-                        End 'Tiempo'                                                                   ,
-                        Case
-                            When    EstadoAnalisis = 'P'
-                                Then 'S'
-                            Else
-                                ''
-                        End 'EstadoAnalisis'                                                            ,
-                        /*
-                        Case
-                            When [TipoTratamiento]='Directo' And HayEscurrido=''
-                                Then dbo.ObDifFechasenHoras(convert(date,getdate()),convert(char(5),getdate(),108),convert(date,[Fecha maxima Tratamiento Inicial])  ,convert(char(5),convert(datetime,[Fecha maxima Tratamiento Inicial]) ,108))   
-                            Else
-                                2000
-                        End 'Tiempo'                                                                      ,
-                        */
-                        [Rendimiento Calidad] 'Rendimiento'                                               ,
-                        [Promedio Residual] 'PromedioResidual'                                            ,
-                        [Tiempo Total Espera] 'TiempoTotalEspera'                                         ,
-                        HayEscurrido                                                                      ,
-                        [TipoTratamiento] 'TipTrat'                                                       ,
-                        [Calidad Estado Cabezas] 'CalidadCabezas'                                         ,
-                        [Trat. Cumplido] 'TratCumplido'                                                   ,
-                        Case 
-                            When [Fecha maxima Tratamiento Final]  <>''
-                                Then Convert(Char(5),Cast([Fecha maxima Tratamiento Final]  As Time)) 
-                            Else
-                                ''
-                        End 'TiempoFinalTrat'                                                             ,
-                        [valor máximo de sulfitos] 'ValMaxSulf'
+                            When Ltrim(Rtrim(horaEstCamara)) = '' 
+                                Then '' 
+                            Else	Format(Cast(Substring(horaEstCamara, 1, 10) As Date), 'dd ', 'es-ES') 
+                                +	Upper(Left(Format(Cast(Substring(horaEstCamara, 1, 10) As Date), 'MMM', 'es-ES'), 1)) 
+                                +	Lower(Substring(Format(Cast(Substring(horaEstCamara, 1, 10) As Date), 'MMM', 'es-ES'), 2, 2)) 
+                                +	' ' 
+                                +	Substring(horaEstCamara, 12, 5)
 
+                        End As FecProgTexto                                                                                                                    ,
+                        Case 
+                            When Ltrim(Rtrim(FechaSalidaPlanta)) = '' 
+                                Then '' 
+                            Else	Format(Cast(Substring(FechaSalidaPlanta, 1, 10) As Date), 'dd ', 'es-ES') 
+                                +	Upper(Left(Format(Cast(Substring(FechaSalidaPlanta, 1, 10) As Date), 'MMM', 'es-ES'), 1)) 
+                                +	Lower(Substring(Format(Cast(Substring(FechaSalidaPlanta, 1, 10) As Date), 'MMM', 'es-ES'), 2, 2)) 
+                                +	' ' 
+                                +	Substring(FechaSalidaPlanta, 12, 5)
+
+                        End As FecSalPlaTexto                                                                                                                   , 
+                        Case 
+                            When Ltrim(Rtrim(FechaLlegadaHielera)) = '' 
+                                Then '' 
+                            Else	Format(Cast(Substring(FechaLlegadaHielera, 1, 10) As Date), 'dd ', 'es-ES') 
+                                +	Upper(Left(Format(Cast(Substring(FechaLlegadaHielera, 1, 10) As Date), 'MMM', 'es-ES'), 1)) 
+                                +	Lower(Substring(Format(Cast(Substring(FechaLlegadaHielera, 1, 10) As Date), 'MMM', 'es-ES'), 2, 2)) 
+                                +	' ' 
+                                +	Substring(FechaLlegadaHielera, 12, 5)
+                        End As FecLlegHieTexto                                                                                                                    ,
+                        Case 
+                            When Ltrim(Rtrim(FechaSalidaHielera)) = '' 
+                                Then '' 
+                            Else	Format(Cast(Substring(FechaSalidaHielera, 1, 10) As Date), 'dd ', 'es-ES') 
+                                +	Upper(Left(Format(Cast(Substring(FechaSalidaHielera, 1, 10) As Date), 'MMM', 'es-ES'), 1)) 
+                                +	Lower(Substring(Format(Cast(Substring(FechaSalidaHielera, 1, 10) As Date), 'MMM', 'es-ES'), 2, 2)) 
+                                +	' ' 
+                                +	Substring(FechaSalidaHielera, 12, 5)
+                        End As FecSalHieTexto                                                                                                                    ,
+                        Case 
+                            When Ltrim(Rtrim(FechaLlegadaCamaronera)) = '' 
+                                Then '' 
+                            Else	Format(Cast(Substring(FechaLlegadaCamaronera, 1, 10) As Date), 'dd ', 'es-ES') 
+                                +	Upper(Left(Format(Cast(Substring(FechaLlegadaCamaronera, 1, 10) As Date), 'MMM', 'es-ES'), 1)) 
+                                +	Lower(Substring(Format(Cast(Substring(FechaLlegadaCamaronera, 1, 10) As Date), 'MMM', 'es-ES'), 2, 2)) 
+                                +	' ' 
+                                +	Substring(FechaLlegadaCamaronera, 12, 5)
+                            
+                        End As FecLlegCamTexto                                                                                                                     ,
+                        Case 
+                            When Ltrim(Rtrim(InicioPesca)) = '' 
+                                Then '' 
+                            Else	Format(Cast(Substring(InicioPesca, 1, 10) As Date), 'dd ', 'es-ES') 
+                                +	Upper(Left(Format(Cast(Substring(InicioPesca, 1, 10) As Date), 'MMM', 'es-ES'), 1)) 
+                                +	Lower(Substring(Format(Cast(Substring(InicioPesca, 1, 10) As Date), 'MMM', 'es-ES'), 2, 2)) 
+                                +	' ' 
+                                +	Substring(InicioPesca, 12, 5)
+
+                        End As InicioPescaTexto                                                                                                                    ,
+                        Case 
+                            When Ltrim(Rtrim(FechaMovilListo)) = '' 
+                                Then '' 
+                            Else	Format(Cast(Substring(FechaMovilListo, 1, 10) As Date), 'dd ', 'es-ES') 
+                                +	Upper(Left(Format(Cast(Substring(FechaMovilListo, 1, 10) As Date), 'MMM', 'es-ES'), 1)) 
+                                +	Lower(Substring(Format(Cast(Substring(FechaMovilListo, 1, 10) As Date), 'MMM', 'es-ES'), 2, 2)) 
+                                +	' ' 
+                                +	Substring(FechaMovilListo, 12, 5)
+
+                        End As FechaMovilListoTexto                                                                                                                    ,
+                        Case 
+                            When Ltrim(Rtrim(FechaCamaroneraPlanta)) = '' 
+                                Then '' 
+                            Else	Format(Cast(Substring(FechaCamaroneraPlanta, 1, 10) As Date), 'dd ', 'es-ES') 
+                                +	Upper(Left(Format(Cast(Substring(FechaCamaroneraPlanta, 1, 10) As Date), 'MMM', 'es-ES'), 1)) 
+                                +	Lower(Substring(Format(Cast(Substring(FechaCamaroneraPlanta, 1, 10) As Date), 'MMM', 'es-ES'), 2, 2)) 
+                                +	' ' 
+                                +	Substring(FechaCamaroneraPlanta, 12, 5)
+
+                        End As FechaCamaroneraPlantaTexto                                                                                                                    ,
+                        Case 
+                            When Ltrim(Rtrim(FechaRealLlegada)) = '' 
+                                Then '' 
+                            Else	Format(Cast(Substring(FechaRealLlegada, 1, 10) As Date), 'dd ', 'es-ES') 
+                                +	Upper(Left(Format(Cast(Substring(FechaRealLlegada, 1, 10) As Date), 'MMM', 'es-ES'), 1)) 
+                                +	Lower(Substring(Format(Cast(Substring(FechaRealLlegada, 1, 10) As Date), 'MMM', 'es-ES'), 2, 2)) 
+                                +	' ' 
+                                +	Substring(FechaRealLlegada, 12, 5)
+
+                        End As FechaRealLlegadaTexto                                                                                                                           ,         
+                        Case 
+                            When Ltrim(Rtrim(FechaProgramadaLlegada)) = '' 
+								Then '' 
+							Else	Format(Cast(Substring(FechaProgramadaLlegada, 1, 10) As Date), 'dd ', 'es-ES') 
+								+	Upper(Left(Format(Cast(Substring(FechaProgramadaLlegada, 1, 10) As Date), 'MMM', 'es-ES'), 1)) 
+								+	Lower(Substring(Format(Cast(Substring(FechaProgramadaLlegada, 1, 10) As Date), 'MMM', 'es-ES'), 2, 2)) 
+								+	' ' 
+								+	Substring(FechaProgramadaLlegada, 12, 5)
+                        End As FechaProgramadaLlegadaTexto     ,
+                        'En Ruta' 'Status'
                         
-                From Vsp_DatosRecepcion 
-                Where   Tipo	    =   'Saldo' 
-                And     Proceso     =   'CC X CC' 
-                And     TipoProceso =   'P'
-                Order By FechaLLegadaPlanta,IngresoSeguridad  
+                        
+                From Vi_Guias_CMP 
+                Order By FechaCamaroneraPlanta Desc
                 OFFSET $desde ROWS 
                 FETCH NEXT $per_page ROWS ONLY";
         $result=sqlsrv_query($con,$sql);
         echo"<table>";
                 echo"<thead>";
                     echo"<tr>";
-                        echo"<th class='ancho_celdas_normales'> Fecha Llegada Planta </th>"; //1
-                        echo"<th class='ancho_celdas_normales'> # Ingreso</th>"; //2
-                        echo"<th class='ancho_celdas_normales'> # Guia</th>"; //3
-                        echo"<th class='ancho_celdas_normales'> Proveedor </th>"; //4
-                        echo"<th class='ancho_celdas_normales'> # Pisc </th>"; //5
-                        echo"<th class='ancho_celdas_normales'> Orden Pesca </th>"; //6
-                        echo"<th class='ancho_celdas_normales'> Kilos </th>"; //7
-                        echo"<th class='ancho_celdas_normales'> Gramaje </th>"; //8
-                        echo"<th class='ancho_celdas_normales'> Mudado </th>"; //9
-                        echo"<th class='ancho_celdas_normales'> Flácido </th>"; //10 
-                        echo"<th class='ancho_celdas_normales'> Rendimiento </th>"; //11
-                        echo"<th class='ancho_celdas_normales'> Cal.Est. Cab.</th>"; //12
-                        echo"<th class='ancho_celdas_normales'>  </th>"; //13
-                        echo"<th class='ancho_celdas_normales'> T. Tratamiento </th>"; //14
-                        echo"<th class='ancho_celdas_normales'> T. Max Trat. Ini. </th>"; //15
-                        echo"<th class='ancho_celdas_normales'> T. Max Trat. Fin. </th>"; // 16 
-                        echo"<th class='ancho_celdas_barra'> </th>"; //17
-                        echo"<th class='ancho_celdas_normales'>  </th>"; //18
-                        echo"<th class='ancho_celdas_normales'> Val. Máx. Sulf. </th>"; //19 
-                        echo"<th class='ancho_celdas_normales'> Prom. Resid. </th>"; //20
-                        //echo"<th class='ancho_celdas_normales'> T. Pesca Planta</th>";
-                        echo"<th class='ancho_celdas_normales'> T. Esp. Recepciòn </th>"; //21
-                        echo"<th class='ancho_celdas_barra'>    </th>"; //22
-                        echo"<th class='ancho_celdas_normales'> T. Tot. Espera </th>"; //23
+                        echo"<th class='ancho_celdas_normales'> # Prog. Pesca       </th>";
+                        echo"<th class='ancho_celdas_normales'> # Guía              </th>";
+                        echo"<th class='ancho_celdas_normales'> Camaronera          </th>";
+                        echo"<th class='ancho_celdas_normales'> Fec. Programada     </th>";
+                        echo"<th class='ancho_celdas_normales'> Salió de Planta    </th>";
+                        echo"<th class='ancho_celdas_normales'> Llegó a Granja   </th>";
+                        echo"<th class='ancho_celdas_normales'> Salió de Granja </th>";
+                        echo"<th class='ancho_celdas_normales'> Llegó a Planta   </th>";
+                        echo"<th class='ancho_celdas_normales'> Fec. Prog. Lleg. </th>";
+                        echo"<th class='ancho_celdas_normales'> Status </th>"; //23
                         
                     echo"</tr>";
                 echo"</thead>";
                 echo"<tbody>";
                     while($mostrar=sqlsrv_fetch_array($result)){
-                        echo"<tr>";
-                            echo"<td>".$mostrar['FechaLLegadaPlanta']->format('d/m/Y')."</td>"; //1
-                            echo"<td>".$mostrar['IngresoSeguridad']."</td>"; //2
-                            echo"<td>".$mostrar['NoGuia']."</td>"; //3
-                            echo"<td>".$mostrar['Proveedor']."</td>"; //4
-                            echo"<td>".$mostrar['Piscina']."</td>"; //5
-                            echo"<td>".$mostrar['OrdenPesca']."</td>"; //6
-                            echo"<td>".number_format($mostrar['Kilos'],2)."</td>"; //7
-                            echo"<td>".number_format($mostrar['GramajeCalidad'],0)."</td>";      //8
-                            echo"<td>".number_format($mostrar['Mudado'],2)."</td>";      //9
-                            echo"<td>".number_format($mostrar['Flacido'],2)."</td>";      //10
-                            echo"<td>".number_format($mostrar['Rendimiento'],2)."</td>";  //11                                      
-                            echo"<td>".$mostrar['CalidadCabezas']."</td>";     //12                                   
-                            $estadoAnalisis =   $mostrar['EstadoAnalisis']; 
-                            $hayEscurrido=$mostrar['HayEscurrido']; 
-                            //13
-                            if($estadoAnalisis=='S'){
-                                echo"<td><i class='fas fa-info-circle'></i></td>";              
-                                                      
-                            }else{
-                                echo"<td>".$mostrar['EstadoAnalisis']."</td>";                                        
-                            }
-                            
-                            echo"<td>".$mostrar['TiempoTratamiento']."</td>"; //14
-                            echo"<td>".$mostrar['TiempoMax']."</td>"; //16
-                            echo"<td>".$mostrar['TiempoFinalTrat']."</td>"; //15
-                            echo"<td>"; //17
-                                $valortiempo = $mostrar['Tiempo'];
-                                $hayescurrido= $mostrar['HayEscurrido'];
-                                $tipoTratamiento = $mostrar['TipTrat'];
-                                //Solo cuando el tratamiento es O debe ser un azul 
-                                $tratcumplido = $mostrar['TratCumplido'];
-                                if($hayescurrido=='S' && $tipoTratamiento <> 'Tinas' && $tratcumplido<> 'O'){
-                                    //if($valortiempo>3 && $valortiempo<>2000){
-                                    if($valortiempo==30){ //Rojo
-                                        echo "
-                                        <div  class='btn btn-success btn-circle btn-circle-sm m-1'>
-                                            
-                                        </div>
-                                        ";
-                                        /* <i class='fa fa-check'></i> */
-                                        
-
-                                    }
-                                    if($valortiempo==20){ //Amarillo
-                                    //if($valortiempo<3 && $valortiempo>0 && $valortiempo<>2000){        
-                                        echo "
-                                        <div  class='btn btn-warning btn-circle btn-circle-sm m-1'>
-                                        </div>
-                                        
-                                        ";
-                                        /* <i class='fa fa-tags'></i> */
-                                        
-                                    }
-                                    if($valortiempo==10){ //Verde
-                                    //if($valortiempo<=0 && $valortiempo<>2000){        
-                                        echo "
-                                        <div  class='btn btn-danger btn-circle btn-circle-sm m-1'>
-                                        </div>";
-                                        /* <i class='fa fa-times'></i> */
-                                    }
-                                }if($hayescurrido=='N' && $tipoTratamiento <> 'Tinas' && $tratcumplido<> 'O'){
-                                    //Rojo
-                                    if($valortiempo>3 && $valortiempo<>3000){
-                                        
-                                            echo "
-                                            <div  class='btn btn-success btn-circle btn-circle-sm m-1'>
-                                                
-                                            </div>
-                                            ";
-                                            /* <i class='fa fa-check'></i> */
-                                            
-
-                                        }
-                                        //Amarillo
-                                        if($valortiempo<3 && $valortiempo>0 && $valortiempo<>3000){        
-                                            echo "
-                                            <div  class='btn btn-warning btn-circle btn-circle-sm m-1'>
-                                            </div>
-                                            
-                                            ";
-                                            /* <i class='fa fa-tags'></i> */
-                                            
-                                        }
-                                        //Verde
-                                        if($valortiempo<=0 && $valortiempo<>3000){        
-                                            echo "
-                                            <div  class='btn btn-danger btn-circle btn-circle-sm m-1'>
-                                            </div>";
-                                            /* <i class='fa fa-times'></i> */
-                                        }
-                                }if($tratcumplido== 'O'){
-                                    echo "
-                                        <div  class='btn btn-blue btn-circle btn-circle-sm m-1'>
-                                        </div>";
-                                }
-                            echo"</td>";
-                            if($hayEscurrido=='S'){
-                                echo"<td><i class='fas fa-check'></i></td>";                                               
-                            }else{
-                                echo"<td></td>";                                               
-                            }
-                            echo"<td>".number_format($mostrar['ValMaxSulf'],0)."</td>";
-                            echo"<td>".number_format($mostrar['PromedioResidual'],0)."</td>";
-                            //echo"<td>".$mostrar['TiempoInicioPescaPlanta']."</td>";
-                            echo"<td>".$mostrar['TiempoEsperaRecepcionPlanta']."</td>";
-                            
-                            echo"<td>";
-                                $porcentaje = $mostrar['Indicador'];
-                                if($porcentaje==10){
-                                    echo "
-                                    <div  class='btn btn-success btn-circle btn-circle-sm m-1'>
-                                        
-                                    </div>
-                                    ";
-                                    /* <i class='fa fa-check'></i> */
-                                }
-                                if($porcentaje==20){        
-                                    echo "
-                                    <div  class='btn btn-warning btn-circle btn-circle-sm m-1'>
-                                    </div>
-                                    
-                                    ";
-                                    /* <i class='fa fa-tags'></i> */
-                                }
-                                if($porcentaje==30){        
-                                    echo "
-                                    <div  class='btn btn-danger btn-circle btn-circle-sm m-1'>
-                                    </div>";
-                                    /* <i class='fa fa-times'></i> */
-                                }
-                            echo"</td>";
-                            echo"<td>".number_format($mostrar['TiempoTotalEspera'],2)."</td>";
+                        $porcentaje         =   $mostrar['Porcentaje'];
+                        $LlegoGranjaPorc    =   $mostrar['LlegoGranjaPorc'];
+                        $SalioGranjaPorc    =   $mostrar['SalioGranjaPorc'];
+                        $LLegoPlantaPorc    =   $mostrar['LLegoPlantaPorc'];
+                        $minutosSemaf1      =   $mostrar['DifMinutosSem1'];
+                        $minutosSemaf2      =   $mostrar['DifMinutosSem2'];
+                        echo"<tr >";
+                            echo"<td>".$mostrar['NroPesca']."</td>";
+                            echo"<td>".$mostrar['NroGuia']."</td>";
+                            echo"<td>".$mostrar['camaronera']."</td>";
+                            echo"<td>".$mostrar['FecProgTexto']."</td>"; //Fec. Programada
+                            echo"<td>".$mostrar['FecSalPlaTexto']."</td>"; //Salió de Planta 
+                            echo"<td>".$mostrar['FecLlegCamTexto']."</td>";//Llegó a Granja
+                            echo"<td>".$mostrar['FechaCamaroneraPlantaTexto']."</td>";//Salió de Granja
+                            echo"<td>".$mostrar['FechaRealLlegadaTexto']."</td>";//Llegó a Planta 
+                            echo"<td>".$mostrar['FechaProgramadaLlegadaTexto']."</td>"; //Fec. Prog. Lleg.
+                            echo"<td class='status'><span class='active'>".$mostrar['Status']."</span></td>";     //12        
                         echo"</tr>";
                             
                     }
@@ -304,34 +210,22 @@
         echo"</table>";
     }else{
         echo"<div class='titulo_tabla_dash'>";
-            echo"<h2>Detalle Guìas de Pesca (CC x CC)</h2>";
-            //echo"<h2 class='titulo_tabla_page'>Pág ".$pagina." De ".$numeroPaginas."</h2>";
+            echo"<h2>Detalle Guìas de Pesca CMP </h2>";
+            
         echo"</div>";
         echo"<table>";
                 echo"<thead>";
                     echo"<tr>";
-                        echo"<th class='ancho_celdas_normales'> Fecha Llegada Planta </th>";
-                        echo"<th class='ancho_celdas_normales'> # Ingreso</th>";
-                        echo"<th class='ancho_celdas_normales'> # Guia</th>";
-                        echo"<th class='ancho_celdas_normales'> Proveedor </th>";
-                        echo"<th class='ancho_celdas_normales'> # Pisc </th>";
-                        echo"<th class='ancho_celdas_normales'> Orden Pesca </th>";
-                        echo"<th class='ancho_celdas_normales'> Kilos </th>";
-                        echo"<th class='ancho_celdas_normales'> Gramaje </th>";
-                        echo"<th class='ancho_celdas_normales'> Mudado </th>";
-                        echo"<th class='ancho_celdas_normales'> Flácido </th>";
-                        echo"<th class='ancho_celdas_normales'> Rendimiento </th>";
-                        echo"<th class='ancho_celdas_normales'>  </th>";
-                        echo"<th class='ancho_celdas_normales'> T. Tratamiento </th>";
-                        echo"<th class='ancho_celdas_normales'> T. Max Trat. Ini. </th>";
-                        echo"<th class='ancho_celdas_normales'> T. Max Trat. Fin. </th>";
-                        echo"<th class='ancho_celdas_barra'> </th>";
-                        echo"<th class='ancho_celdas_normales'> Val. Máx. Sulf. </th>"; 
-                        echo"<th class='ancho_celdas_normales'> Prom. Resid. </th>";
-                        //echo"<th class='ancho_celdas_normales'> T. Pesca Planta</th>";
-                        echo"<th class='ancho_celdas_normales'> T. Esp. Recepciòn </th>";
-                        echo"<th class='ancho_celdas_barra'>    </th>";
-                        echo"<th class='ancho_celdas_normales'> T. Tot. Espera </th>";
+                        echo"<th class='ancho_celdas_normales'> # Prog. Pesca       </th>";
+                        echo"<th class='ancho_celdas_normales'> # Guía              </th>";
+                        echo"<th class='ancho_celdas_normales'> Camaronera          </th>";
+                        echo"<th class='ancho_celdas_normales'> Fec. Programada     </th>";
+                        echo"<th class='ancho_celdas_normales'> Salió de Planta    </th>";
+                        echo"<th class='ancho_celdas_normales'> Llegó a Granja   </th>";
+                        echo"<th class='ancho_celdas_normales'> Salió de Granja </th>";
+                        echo"<th class='ancho_celdas_normales'> Llegó a Planta   </th>";
+                        echo"<th class='ancho_celdas_normales'> Fec. Prog. Lleg. </th>";
+                        echo"<th class='ancho_celdas_normales'> Status </th>"; //23
                         
                     echo"</tr>";
                 echo"</thead>";
