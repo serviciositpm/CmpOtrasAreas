@@ -25,7 +25,7 @@
             </div>
             <div class="contenido_titulo">
                 <h2 class="titulo_principal">
-                   <u>Datos Guías CMP </u> 
+                   <u>Centro Monitoreo de Pesca(CMP)</u> 
                 </h2>
             </div>
         </div>
@@ -86,7 +86,7 @@
                         ?> 
                 </span>
                 <i class="fas fa-calendar icon"></i>
-                
+                <!-- <i class="fas fa-shrimp icon"></i> -->
                 
             </div>
             <div class="kpi-card red">
@@ -105,7 +105,7 @@
                 <i class="fas fa-moon icon"></i>
             </div>
             
-            <div class="kpi-card purple">
+            <!-- <div class="kpi-card purple">
                 <span class="card-value">Hora</span>
                 <span class="card-text">
                     <?php 
@@ -116,7 +116,7 @@
                     ?> 
                 </span>
                 <i class="fas fa-clock icon"></i>
-            </div>
+            </div> -->
             
             
             <!-- <div class="kpi-card red">
@@ -153,7 +153,7 @@
                     });    
                 });
                 
-                /* setInterval(function(){
+                setInterval(function(){
                     $.ajax({
                         url: 'registrostabla.php',
                         type: 'post',
@@ -163,14 +163,14 @@
                             contador+=1;
                         }
                     });    
-                },10000); */
+                },10000); 
 
-                /* function actualizar(){
+                function actualizar(){
                     contador = 1
                     location.reload(true);
-                } */
+                }
                 //Función para actualizar cada 5 segundos(5000 milisegundos)
-                /* setInterval("actualizar()",60000); */
+                setInterval("actualizar()",60000);
             </script>
         </div>
         

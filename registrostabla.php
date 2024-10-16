@@ -160,7 +160,40 @@
 								+	' ' 
 								+	Substring(FechaProgramadaLlegada, 12, 5)
                         End As FechaProgramadaLlegadaTexto     ,
-                        'En Ruta' 'Status'
+                        Case 
+                            When Ltrim(Rtrim(FechaEstimadaLlegadaPlantaCalc)) = '' 
+								Then '' 
+							Else	Format(Cast(Substring(FechaEstimadaLlegadaPlantaCalc, 1, 10) As Date), 'dd ', 'es-ES') 
+								+	Upper(Left(Format(Cast(Substring(FechaEstimadaLlegadaPlantaCalc, 1, 10) As Date), 'MMM', 'es-ES'), 1)) 
+								+	Lower(Substring(Format(Cast(Substring(FechaEstimadaLlegadaPlantaCalc, 1, 10) As Date), 'MMM', 'es-ES'), 2, 2)) 
+								+	' ' 
+								+	Substring(FechaEstimadaLlegadaPlantaCalc, 12, 5)
+                        End As FechaEstimadaLlegadaPlantaCalcTexto     ,
+                         Case 
+                            When Ltrim(Rtrim(FechaEstimadaLlegadaCamaroneraCalc)) = '' 
+								Then '' 
+							Else	Format(Cast(Substring(FechaEstimadaLlegadaCamaroneraCalc, 1, 10) As Date), 'dd ', 'es-ES') 
+								+	Upper(Left(Format(Cast(Substring(FechaEstimadaLlegadaCamaroneraCalc, 1, 10) As Date), 'MMM', 'es-ES'), 1)) 
+								+	Lower(Substring(Format(Cast(Substring(FechaEstimadaLlegadaCamaroneraCalc, 1, 10) As Date), 'MMM', 'es-ES'), 2, 2)) 
+								+	' ' 
+								+	Substring(FechaEstimadaLlegadaCamaroneraCalc, 12, 5)
+                        End As FechaEstimadaLlegadaCamaroneraCalcTexto     ,
+                        Case 
+                            When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera='' And FechaMovilListo='' And FechaCamaroneraPlanta='' And FechaRealLlegada=''
+                                Then	'1' --Ruta Camaronera
+                            When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo='' And FechaCamaroneraPlanta='' And FechaRealLlegada=''
+                                Then	'2' --En Camaronera
+                            When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo<>'' And FechaCamaroneraPlanta='' And FechaRealLlegada=''
+                                Then	'3' --Ruta Planta
+                            When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo<>'' And FechaCamaroneraPlanta<>'' And FechaRealLlegada=''
+                                Then	'3' --Ruta Planta
+                            When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo<>'' And FechaCamaroneraPlanta<>'' And FechaRealLlegada<>''
+                                Then	'3' --En Planta
+                            Else
+                                ''
+                        End 'Status'
+                        
+                        --'En Ruta' 
                         
                         
                 From Vi_Guias_CMP 
@@ -171,15 +204,18 @@
         echo"<table>";
                 echo"<thead>";
                     echo"<tr>";
-                        echo"<th class='ancho_celdas_normales'> # Prog. Pesca       </th>";
+                        echo"<th class='ancho_celdas_normales'>  T/P     </th>";
+                        echo"<th class='ancho_celdas_normales'> # Pesca       </th>";
                         echo"<th class='ancho_celdas_normales'> # Guía              </th>";
-                        echo"<th class='ancho_celdas_normales'> Camaronera          </th>";
-                        echo"<th class='ancho_celdas_normales'> Fec. Programada     </th>";
-                        echo"<th class='ancho_celdas_normales'> Salió de Planta    </th>";
-                        echo"<th class='ancho_celdas_normales'> Llegó a Granja   </th>";
-                        echo"<th class='ancho_celdas_normales'> Salió de Granja </th>";
-                        echo"<th class='ancho_celdas_normales'> Llegó a Planta   </th>";
-                        echo"<th class='ancho_celdas_normales'> Fec. Prog. Lleg. </th>";
+                        echo"<th class='ancho_celdas_normales'> Granja          </th>";
+                        echo"<th class='ancho_celdas_normales'> PP. Salida Real    </th>";
+                        echo"<th class='ancho_celdas_normales'> G. Programada     </th>";
+                        echo"<th class='ancho_celdas_normales'> G. Estimada   </th>";
+                        echo"<th class='ancho_celdas_normales'> G. Llegada   </th>";
+                        echo"<th class='ancho_celdas_normales'> G. Salida </th>";
+                        echo"<th class='ancho_celdas_normales'> P. Estimada </th>";
+                        echo"<th class='ancho_celdas_normales'> P. Llegada  </th>";
+                        echo"<th class='ancho_celdas_normales'> P. Programada </th>";
                         echo"<th class='ancho_celdas_normales'> Status </th>"; //23
                         
                     echo"</tr>";
@@ -192,17 +228,40 @@
                         $LLegoPlantaPorc    =   $mostrar['LLegoPlantaPorc'];
                         $minutosSemaf1      =   $mostrar['DifMinutosSem1'];
                         $minutosSemaf2      =   $mostrar['DifMinutosSem2'];
+                        $status             =   $mostrar['Status'];
+                        $tipoPesca          =   $mostrar['TipoPesca'];
+                        
                         echo"<tr >";
+                            if ($tipoPesca==1){
+                                echo"<td><i class='fas fa-shrimp camaron'></i></td>";
+                            }else{
+                                echo"<td></i></td>";
+                            }
+                        /*  --> */
                             echo"<td>".$mostrar['NroPesca']."</td>";
                             echo"<td>".$mostrar['NroGuia']."</td>";
                             echo"<td>".$mostrar['camaronera']."</td>";
-                            echo"<td>".$mostrar['FecProgTexto']."</td>"; //Fec. Programada
                             echo"<td>".$mostrar['FecSalPlaTexto']."</td>"; //Salió de Planta 
+                            echo"<td>".$mostrar['FecProgTexto']."</td>"; //Fec. Programada
+                            echo"<td>".$mostrar['FechaEstimadaLlegadaCamaroneraCalcTexto']."</td>"; //Fecha Estimada Llegada Camaronera
                             echo"<td>".$mostrar['FecLlegCamTexto']."</td>";//Llegó a Granja
                             echo"<td>".$mostrar['FechaCamaroneraPlantaTexto']."</td>";//Salió de Granja
+                            echo"<td>".$mostrar['FechaEstimadaLlegadaPlantaCalcTexto']."</td>";//Fecha Estimada Llegada Planta
                             echo"<td>".$mostrar['FechaRealLlegadaTexto']."</td>";//Llegó a Planta 
                             echo"<td>".$mostrar['FechaProgramadaLlegadaTexto']."</td>"; //Fec. Prog. Lleg.
-                            echo"<td class='status'><span class='active'>".$mostrar['Status']."</span></td>";     //12        
+                            if ($status  =='1'){
+                                echo"<td class='status'><span class='haciacamaronera'>Ruta Camaronera</span></td>";  
+                            }
+                            if ($status  =='2'){
+                                echo"<td class='status'><span class='llegocamaronera'>En Camaronera</span></td>";  
+                            }
+                            if ($status  =='3'){
+                                echo"<td class='status'><span class='haciaplanta'>Hacia Planta</span></td>";  
+                            }
+                            if ($status  =='4'){
+                                echo"<td class='status'><span class='active'>En Planta</span></td>";  
+                            }
+                               //12        
                         echo"</tr>";
                             
                     }
@@ -216,16 +275,20 @@
         echo"<table>";
                 echo"<thead>";
                     echo"<tr>";
-                        echo"<th class='ancho_celdas_normales'> # Prog. Pesca       </th>";
+                        echo"<th class='ancho_celdas_normales'>  T/P     </th>";
+                        echo"<th class='ancho_celdas_normales'> # Pesca       </th>";
                         echo"<th class='ancho_celdas_normales'> # Guía              </th>";
-                        echo"<th class='ancho_celdas_normales'> Camaronera          </th>";
-                        echo"<th class='ancho_celdas_normales'> Fec. Programada     </th>";
-                        echo"<th class='ancho_celdas_normales'> Salió de Planta    </th>";
-                        echo"<th class='ancho_celdas_normales'> Llegó a Granja   </th>";
-                        echo"<th class='ancho_celdas_normales'> Salió de Granja </th>";
-                        echo"<th class='ancho_celdas_normales'> Llegó a Planta   </th>";
-                        echo"<th class='ancho_celdas_normales'> Fec. Prog. Lleg. </th>";
+                        echo"<th class='ancho_celdas_normales'> Granja          </th>";
+                        echo"<th class='ancho_celdas_normales'> PP. Salida Real    </th>";
+                        echo"<th class='ancho_celdas_normales'> G. Programada     </th>";
+                        echo"<th class='ancho_celdas_normales'> G. Estimada   </th>";
+                        echo"<th class='ancho_celdas_normales'> G. Llegada   </th>";
+                        echo"<th class='ancho_celdas_normales'> G. Salida </th>";
+                        echo"<th class='ancho_celdas_normales'> P. Estimada </th>";
+                        echo"<th class='ancho_celdas_normales'> P. Llegada  </th>";
+                        echo"<th class='ancho_celdas_normales'> P. Programada </th>";
                         echo"<th class='ancho_celdas_normales'> Status </th>"; //23
+                        
                         
                     echo"</tr>";
                 echo"</thead>";

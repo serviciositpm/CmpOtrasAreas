@@ -136,7 +136,7 @@ blockquote {
 }
 .contenido_titulo{
   flex-basis: auto;
-  margin-left: 50%;
+  margin-left: 10%;
 }
 .titulo_principal{
   font-weight: 800;
@@ -296,6 +296,11 @@ blockquote {
   background-color: #c82333;
   border-color: #bd2130;
 }
+.camaron{
+  color: #9e4a4a;
+  /* background-color: #c82333; */
+  border-color: #bd2130;
+}
 .btn-blue{
   color: #fff;
   background-color: #0000FF;
@@ -305,6 +310,24 @@ blockquote {
   
   background: #cff6dd;
   color: #1fa750;
+  
+}
+.status .haciaplanta {
+  
+  background: #e3ec5c;
+  color: #8d8d8b;
+  
+}
+.status .haciacamaronera {
+  
+  background: #3d93a8;
+  color: #22617e;
+  
+}
+.status .llegocamaronera {
+  
+  background: #f6e6cf;
+  color: #a7681f;
   
 }
 .status span{
