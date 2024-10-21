@@ -10,14 +10,14 @@ table {
     position: relative;
     font-size: 20px;
   }
-  table * {
+  /* table * {
     position: relative;
-  }
+  } */
   table td, table th {
     padding-left: 8px;
   }
   table thead tr {
-    height: 60px;
+    height: 30px;
     background: #082435;
     font-size: 16px;
     color: white;
@@ -133,6 +133,14 @@ blockquote {
   border-radius: 10px;
   margin-top: 15px;
   margin-left: 10px;
+}
+/* .div_container_titulo img {
+  height: 50px; 
+} */
+
+.imagen_derecha img {
+  height: 100px; /* Ajusta el tamaño según tu necesidad */
+  margin-left: auto; /* Asegura que la imagen esté alineada a la derecha */
 }
 .contenido_titulo{
   flex-basis: auto;
@@ -314,14 +322,14 @@ blockquote {
 }
 .status .haciaplanta {
   
-  background: #e3ec5c;
+  background: #dbe089;
   color: #8d8d8b;
   
 }
 .status .haciacamaronera {
   
-  background: #3d93a8;
-  color: #22617e;
+  background: #cde8ec;
+  color: #345b6e;
   
 }
 .status .llegocamaronera {
@@ -348,4 +356,68 @@ blockquote {
 
 .waiting:after {
   background: #f2be1d;
+}
+/* Estilo especial para el delimitador de la primera fila */
+.delimitador-inicio {
+  border-left: 3px solid black; /* Borde izquierdo más grueso */
+}
+
+.delimitador-final {
+  border-right: 3px solid black; /* Borde derecho más grueso */
+}
+/* Delimitador para las celdas que terminan un colspan */
+.border-right-delimiter {
+  border-right: 1px solid white; /* Borde derecho más grueso */
+}
+
+.custom-table {
+  width: 100%;
+  background-color: transparent;
+  text-align: left;
+  border-collapse: collapse;
+}
+.custom-table tbody tr {
+  height: 30px !important;
+  border-bottom: none !important;
+}
+
+.custom-table td {
+  padding: 2px 5px; /* Disminuye el padding vertical entre las filas */
+}
+
+.custom-table td:first-child {
+  color: white;
+  font-weight: bold;
+}
+
+.custom-table td:last-child {
+  color: white;
+  font-weight: normal;
+}
+
+/* Personalización para la segunda tabla */
+.custom-table-secondary tr:nth-child(2) td {
+  border-bottom: 2px solid #8c8f88 !important; 
+}
+
+/* Asegurar que "No Iniciado" esté alineado a la izquierda */
+.custom-table-secondary tr:nth-child(3) td:first-child {
+  text-align: left;
+}
+
+/* Asegurar que "No Iniciado" esté alineado a la izquierda */
+.custom-table-tercera tr:nth-child(2) td:first-child {
+  text-align: left !important;
+  
+}
+/* Asegurar que "No Iniciado" esté alineado a la izquierda */
+.custom-table-tercera tr:nth-child(3) td:first-child {
+  text-align: left !important;
+  
+}
+
+.imagen_derecha {
+  /* max-width: 140px; */ /* Ajusta el tamaño a tu gusto */
+  height: auto;
+  margin-left: 25%; /* Espacio entre el texto y la imagen */
 }
