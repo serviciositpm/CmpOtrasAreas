@@ -214,7 +214,7 @@
                         echo"<th class='ancho_celdas_normales'> N° PESCA       </th>";
                         echo"<th class='ancho_celdas_normales'> N° GUÍA             </th>";
                         echo"<th class='ancho_celdas_normales'> GRANJA          </th>";
-                        echo"<th class='ancho_celdas_normales border-right-delimiter'> SALDIA REAL   </th>";
+                        echo"<th class='ancho_celdas_normales border-right-delimiter'> SALIDA REAL   </th>";
                         echo"<th class='ancho_celdas_normales'> PROGRAMADA     </th>";
                         echo"<th class='ancho_celdas_normales'> ESTIMADA   </th>";
                         echo"<th class='ancho_celdas_normales'> LLEGADA   </th>";
@@ -275,7 +275,7 @@
         echo"</table>";
     }else{
         echo"<div class='titulo_tabla_dash'>";
-            echo"<h2>Detalle Guìas de Pesca CMP </h2>";
+            echo"<h2>Detalle Guías de Pesca CMP </h2>";
             
         echo"</div>";
         echo"<table>";

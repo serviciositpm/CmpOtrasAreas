@@ -19,7 +19,7 @@ table {
   table thead tr {
     height: 30px;
     background: #082435;
-    font-size: 16px;
+    /* font-size: 16px; */
     color: white;
   }
   table tbody tr {
@@ -144,13 +144,14 @@ blockquote {
 }
 .contenido_titulo{
   flex-basis: auto;
-  margin-left: 10%;
+  margin-left: 2%;
 }
 .titulo_principal{
   font-weight: 800;
   color: #c12222;
-  font-size: 2.5rem;
-  margin-bottom: 0.4rem;
+  font-size: 50px;
+  /* margin-bottom: 0.4rem; */
+  margin-top: 20px;
 }
 
 .skill {
@@ -375,14 +376,20 @@ blockquote {
   background-color: transparent;
   text-align: left;
   border-collapse: collapse;
+  
 }
 .custom-table tbody tr {
   height: 30px !important;
   border-bottom: none !important;
+  
 }
 
 .custom-table td {
   padding: 2px 5px; /* Disminuye el padding vertical entre las filas */
+  
+}
+.izquierda {
+  text-align: left;
 }
 
 .custom-table td:first-child {
@@ -397,7 +404,8 @@ blockquote {
 
 /* Personalización para la segunda tabla */
 .custom-table-secondary tr:nth-child(2) td {
-  border-bottom: 2px solid #8c8f88 !important; 
+  /* border-bottom: 2px solid #8c8f88 !important;  */
+  border-bottom: none; 
 }
 
 /* Asegurar que "No Iniciado" esté alineado a la izquierda */

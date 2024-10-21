@@ -26,7 +26,7 @@ if (!$con) {
         </div>
         <div class="contenido_titulo">
             <h2 class="titulo_principal">
-                <u>CENTRO MONITOREO DE PESCAS</u>
+                CENTRO MONITOREO DE PESCAS
             </h2>
             
         </div>
@@ -97,22 +97,22 @@ if (!$con) {
         }
         ?>
         <div class="kpi-card orange">
-            <table class="custom-table">
+            <table class="custom-table ">
                 <tr>
-                    <td><strong>FECHA:</strong></td>
-                    <td>
+                    <td class="izquierda"><strong>FECHA:</strong></td>
+                    <td class="izquierda">
                         <?php
                         echo $fechaactual;
                         ?>
                     </td>
                 </tr>
                 <tr>
-                    <td><strong>TURNO:</strong></td>
-                    <td><?php echo $turno; ?></td>
+                    <td class="izquierda"><strong>TURNO:</strong></td>
+                    <td class="izquierda"><?php echo $turno; ?></td>
                 </tr>
                 <tr>
-                    <td><strong>AGUAJE:</strong></td>
-                    <td><?php echo $aguaje; ?></td>
+                    <td class="izquierda"><strong>AGUAJE:</strong></td>
+                    <td class="izquierda"><?php echo $aguaje; ?></td>
                 </tr>
             </table>
             <!--  <span class="card-value">Fecha</span>
