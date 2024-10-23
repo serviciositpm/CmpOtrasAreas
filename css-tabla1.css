@@ -129,7 +129,7 @@ blockquote {
 .div_container_titulo img{
   object-fit: cover;
   height: 70%;
-  width: 100%;
+  /* width: 100%; */
   border-radius: 10px;
   margin-top: 15px;
   margin-left: 10px;
@@ -309,6 +309,11 @@ blockquote {
   color: #9e4a4a;
   /* background-color: #c82333; */
   border-color: #bd2130;
+}
+.gps{
+  color: #345b6e;
+  /* background-color: #c82333; */
+  border-color: #345b6e;
 }
 .btn-blue{
   color: #fff;

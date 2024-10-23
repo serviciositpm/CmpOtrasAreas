@@ -47,7 +47,7 @@
         echo "          Cant Filas   ->".$per_page;
         */
         echo"<div class='titulo_tabla_dash'>";
-            echo"<h2>Detalle Guìas de Pesca CMP </h2>";
+            echo"<h2>Detalle Guías de Pesca CMP </h2>";
             echo"<h2 class='titulo_tabla_page'>Pág ".$pagina." De ".$numeroPaginas."</h2>";
         echo"</div>";
 
@@ -180,17 +180,17 @@
                         End As FechaEstimadaLlegadaCamaroneraCalcTexto     ,
                         Case 
                             When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera='' And FechaMovilListo='' And FechaCamaroneraPlanta='' And FechaRealLlegada=''
-                                Then	'1' --Ruta Camaronera
+                                Then	'3' --Ruta Camaronera
                             When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo='' And FechaCamaroneraPlanta='' And FechaRealLlegada=''
                                 Then	'2' --En Camaronera
                             When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo<>'' And FechaCamaroneraPlanta='' And FechaRealLlegada=''
-                                Then	'3' --Ruta Planta
+                                Then	'1' --Ruta Planta
                             When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo<>'' And FechaCamaroneraPlanta<>'' And FechaRealLlegada=''
-                                Then	'3' --Ruta Planta
+                                Then	'1' --Ruta Planta
                             When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo<>'' And FechaCamaroneraPlanta<>'' And FechaRealLlegada<>''
                                 Then	'4' --En Planta
                             Else
-                                ''
+                                '5'
                         End 'Status'
                         
                         --'En Ruta' 
@@ -204,12 +204,13 @@
         echo"<table>";
                 echo"<thead>";
                     echo"<tr>";
-                        echo"<th colspan='5' class='border-right-delimiter'>PROGRAMA PESCA</th>";
+                        echo"<th colspan='6' class='border-right-delimiter'>PROGRAMA PESCA</th>";
                         echo"<th colspan='4' class='border-right-delimiter'>GRANJA</th>";                        
                         echo"<th colspan='3' class='border-right-delimiter'>PLANTA</th>";                        
                         echo"<th rowspan='1'></th>";                        
                     echo"</tr>";
                     echo"<tr>";
+                        echo"<th class='ancho_celdas_normales'>GPS</th>";
                         echo"<th class='ancho_celdas_normales'>  TP     </th>";
                         echo"<th class='ancho_celdas_normales'> N° PESCA       </th>";
                         echo"<th class='ancho_celdas_normales'> N° GUÍA             </th>";
@@ -236,8 +237,20 @@
                         $minutosSemaf2      =   $mostrar['DifMinutosSem2'];
                         $status             =   $mostrar['Status'];
                         $tipoPesca          =   $mostrar['TipoPesca'];
+                        $tieneGps           =   $mostrar['tienGps'];
+                       /*  echo"<tr >";
+                            if ($tieneGps==1){
+                                echo"<td><i class='fas fa-map-marker-alt camaron'></i></td>";
+                            }else{
+                                echo"<td></i></td>";
+                            } */
                         
                         echo"<tr >";
+                            if ($tieneGps==1){
+                                echo"<td><i class='fas fa-map-marker-alt gps'></i></td>";
+                            }else{
+                                echo"<td></i></td>";
+                            }
                             if ($tipoPesca==1){
                                 echo"<td><i class='fas fa-shrimp camaron'></i></td>";
                             }else{
@@ -255,13 +268,13 @@
                             echo"<td>".$mostrar['FechaEstimadaLlegadaPlantaCalcTexto']."</td>";//Fecha Estimada Llegada Planta
                             echo"<td>".$mostrar['FechaRealLlegadaTexto']."</td>";//Llegó a Planta 
                             echo"<td>".$mostrar['FechaProgramadaLlegadaTexto']."</td>"; //Fec. Prog. Lleg.
-                            if ($status  =='1'){
+                            if ($status  =='3'){
                                 echo"<td class='status'><span class='haciacamaronera'>Ruta a Granja</span></td>";  
                             }
                             if ($status  =='2'){
                                 echo"<td class='status'><span class='llegocamaronera'>En Granja</span></td>";  
                             }
-                            if ($status  =='3'){
+                            if ($status  =='1'){
                                 echo"<td class='status'><span class='haciaplanta'>Ruta a Planta</span></td>";  
                             }
                             if ($status  =='4'){
@@ -287,6 +300,7 @@
                         echo"<th rowspan='1'></th>";                        
                     echo"</tr>";
                     echo"<tr>";
+                        echo"<th class='ancho_celdas_normales'>GPS</th>";
                         echo"<th class='ancho_celdas_normales'>  TP     </th>";
                         echo"<th class='ancho_celdas_normales'> N° PESCA       </th>";
                         echo"<th class='ancho_celdas_normales'> N° GUÍA             </th>";
