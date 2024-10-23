@@ -251,7 +251,7 @@ if (!$con) {
                 location.reload(true);
             }
             //Función para actualizar cada 5 segundos(5000 milisegundos)
-            setInterval("actualizar()", 90000);
+            setInterval("actualizar()", 120000);
         </script>
     </div>
 
