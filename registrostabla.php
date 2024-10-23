@@ -256,13 +256,13 @@
                             echo"<td>".$mostrar['FechaRealLlegadaTexto']."</td>";//Llegó a Planta 
                             echo"<td>".$mostrar['FechaProgramadaLlegadaTexto']."</td>"; //Fec. Prog. Lleg.
                             if ($status  =='1'){
-                                echo"<td class='status'><span class='haciacamaronera'>Ruta Camaronera</span></td>";  
+                                echo"<td class='status'><span class='haciacamaronera'>Ruta a Granja</span></td>";  
                             }
                             if ($status  =='2'){
-                                echo"<td class='status'><span class='llegocamaronera'>En Camaronera</span></td>";  
+                                echo"<td class='status'><span class='llegocamaronera'>En Granja</span></td>";  
                             }
                             if ($status  =='3'){
-                                echo"<td class='status'><span class='haciaplanta'>Hacia Planta</span></td>";  
+                                echo"<td class='status'><span class='haciaplanta'>Ruta a Planta</span></td>";  
                             }
                             if ($status  =='4'){
                                 echo"<td class='status'><span class='active'>En Planta</span></td>";  
@@ -281,26 +281,25 @@
         echo"<table>";
                 echo"<thead>";
                     echo"<tr>";
-                        echo"<th colspan='5' class='border-right-delimiter'>Programa Pesca</th>";
-                        echo"<th colspan='4' class='border-right-delimiter'>Granja</th>";                        
-                        echo"<th colspan='3' class='border-right-delimiter'>Planta</th>";                        
+                        echo"<th colspan='5' class='border-right-delimiter'>PROGRAMA PESCA</th>";
+                        echo"<th colspan='4' class='border-right-delimiter'>GRANJA</th>";                        
+                        echo"<th colspan='3' class='border-right-delimiter'>PLANTA</th>";                        
                         echo"<th rowspan='1'></th>";                        
                     echo"</tr>";
                     echo"<tr>";
-                        echo"<th class='ancho_celdas_normales'>  T/P     </th>";
-                        echo"<th class='ancho_celdas_normales'> # Pesca       </th>";
-                        echo"<th class='ancho_celdas_normales'> # Guía              </th>";
-                        echo"<th class='ancho_celdas_normales'> Granja          </th>";
-                        echo"<th class='ancho_celdas_normales border-right-delimiter'> PP. Salida Real    </th>";
-                        echo"<th class='ancho_celdas_normales'> G. Programada     </th>";
-                        echo"<th class='ancho_celdas_normales'> G. Estimada   </th>";
-                        echo"<th class='ancho_celdas_normales'> G. Llegada   </th>";
-                        echo"<th class='ancho_celdas_normales border-right-delimiter'> G. Salida </th>";
-                        echo"<th class='ancho_celdas_normales'> P. Estimada </th>";
-                        echo"<th class='ancho_celdas_normales'> P. Llegada  </th>";
-                        echo"<th class='ancho_celdas_normales border-right-delimiter'> P. Programada </th>";
-                        echo"<th class='ancho_celdas_normales'> Status </th>"; //23
-                        
+                        echo"<th class='ancho_celdas_normales'>  TP     </th>";
+                        echo"<th class='ancho_celdas_normales'> N° PESCA       </th>";
+                        echo"<th class='ancho_celdas_normales'> N° GUÍA             </th>";
+                        echo"<th class='ancho_celdas_normales'> GRANJA          </th>";
+                        echo"<th class='ancho_celdas_normales border-right-delimiter'> SALIDA REAL   </th>";
+                        echo"<th class='ancho_celdas_normales'> PROGRAMADA     </th>";
+                        echo"<th class='ancho_celdas_normales'> ESTIMADA   </th>";
+                        echo"<th class='ancho_celdas_normales'> LLEGADA   </th>";
+                        echo"<th class='ancho_celdas_normales border-right-delimiter'>SALIDA </th>";
+                        echo"<th class='ancho_celdas_normales'> ESTIMADA </th>";
+                        echo"<th class='ancho_celdas_normales'> LLEGADA  </th>";
+                        echo"<th class='ancho_celdas_normales border-right-delimiter'>PROGRAMADA</th>";
+                        echo"<th class='ancho_celdas_normales'> STATUS </th>"; //23
                         
                     echo"</tr>";
                 echo"</thead>";
