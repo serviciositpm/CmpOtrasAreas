@@ -32,7 +32,7 @@
             $pagina =   $contador;
         }
         if($pagina  >   1){
-            $desde  =   (($pagina*($per_page-1))-$per_page)+1;
+            $desde  =   (($pagina*($per_page-1))-$per_page)+2;//+1
 
         }else{
             //$desde  =   $contador-1;
@@ -197,7 +197,7 @@
                         
                         
                 From Vi_Guias_CMP 
-                Order By Status
+                Order By Status,NroGuia
                 OFFSET $desde ROWS 
                 FETCH NEXT $per_page ROWS ONLY";
         $result=sqlsrv_query($con,$sql);
