@@ -244,7 +244,7 @@ if (!$con) {
                         contador += 1;
                     }
                 });
-            }, 10000);
+            }, 8000);
 
             function actualizar() {
                 contador = 1

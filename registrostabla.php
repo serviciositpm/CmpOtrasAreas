@@ -197,7 +197,7 @@
                         
                         
                 From Vi_Guias_CMP 
-                Order By FechaSalidaPlanta Desc,FechaLlegadaCamaronera Desc,FechaMovilListo Desc,FechaCamaroneraPlanta Desc,FechaRealLlegada  Desc
+                Order By Status
                 OFFSET $desde ROWS 
                 FETCH NEXT $per_page ROWS ONLY";
         $result=sqlsrv_query($con,$sql);
