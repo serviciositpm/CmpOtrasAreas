@@ -42,6 +42,10 @@
             $pagina =   1;
             $desde  =   0;
         }
+        if ($pagina>$numeroPaginas){
+            $pagina =   1;
+            $desde  =   0;
+        }
         /*
         echo "Desde ->".$desde;
         echo "          Cant Filas   ->".$per_page;
