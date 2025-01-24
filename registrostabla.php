@@ -185,13 +185,17 @@
                         Case 
                             When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera='' And FechaMovilListo='' And FechaCamaroneraPlanta='' And FechaRealLlegada=''
                                 Then	'3' --Ruta Camaronera
-                            When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo='' And FechaCamaroneraPlanta='' And FechaRealLlegada=''
+                            --When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo='' And FechaCamaroneraPlanta='' And FechaRealLlegada=''
+                            When	FechaLlegadaCamaronera<>'' And FechaMovilListo='' And FechaCamaroneraPlanta='' And FechaRealLlegada=''
                                 Then	'2' --En Camaronera
-                            When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo<>'' And FechaCamaroneraPlanta='' And FechaRealLlegada=''
+                            --When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo<>'' And FechaCamaroneraPlanta='' And FechaRealLlegada=''
+                            When	FechaLlegadaCamaronera<>'' And FechaMovilListo<>'' And FechaCamaroneraPlanta='' And FechaRealLlegada=''
                                 Then	'1' --Ruta Planta
-                            When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo<>'' And FechaCamaroneraPlanta<>'' And FechaRealLlegada=''
+                            --When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo<>'' And FechaCamaroneraPlanta<>'' And FechaRealLlegada=''
+                            When	FechaCamaroneraPlanta<>'' And FechaRealLlegada=''                            
                                 Then	'1' --Ruta Planta
-                            When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo<>'' And FechaCamaroneraPlanta<>'' And FechaRealLlegada<>''
+                            --When	FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo<>'' And FechaCamaroneraPlanta<>'' And FechaRealLlegada<>''
+                            When	FechaRealLlegada<>''
                                 Then	'4' --En Planta
                             Else
                                 '5'
