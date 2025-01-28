@@ -53,7 +53,20 @@
         echo"<div class='titulo_tabla_dash'>";
             echo"<h2>Detalle Guías de Pesca CMP </h2>";
             echo"<h2 class='titulo_tabla_page'>Pág ".$pagina." De ".$numeroPaginas."</h2>";
+            echo "<input type='hidden' id='numeroPagi' name='numeroPagi' value='$numeroPaginas'>";
         echo"</div>";
+        // 6. Mostrar controles de paginación
+        echo "<div id='paginas' class='titulo_tabla_dash paginacion'>";
+        if ($pagina > 1) {
+            echo "<a href=# id='anterior'>Anterior</a>";
+        }
+        for ($i = 1; $i <= $numeroPaginas; $i++) {
+            echo "<a href=# id='$i'>" . ($i == $pagina ? "<strong>$i</strong>" : $i) . "</a>";
+        }
+        if ($pagina < $numeroPaginas) {
+            echo "<a href=# id='siguiente'>Siguiente</a>";
+        }
+    echo "</div>";
 
         $sql="  Select  *                                                                                                                                       ,
                         Case 
@@ -246,13 +259,6 @@
                         $status             =   $mostrar['Status'];
                         $tipoPesca          =   $mostrar['TipoPesca'];
                         $tieneGps           =   $mostrar['tienGps'];
-                       /*  echo"<tr >";
-                            if ($tieneGps==1){
-                                echo"<td><i class='fas fa-map-marker-alt camaron'></i></td>";
-                            }else{
-                                echo"<td></i></td>";
-                            } */
-                        
                         echo"<tr >";
                             if ($tieneGps==1){
                                 echo"<td><i class='fas fa-map-marker-alt gps'></i></td>";
@@ -333,21 +339,4 @@
     
 
 
-    
-    /*
-    $query = "SELECT * FROM tabla LIMIT $start, $per_page";
-    $result = mysqli_query($conn, $query);
-    */
-    // Mostrar los registros en una tabla HTML
-    /* echo "<table>";
-    while ($row = mysqli_fetch_assoc($result)) {
-    echo "<tr>";
-    echo "<td>" . $row['campo1'] . "</td>";
-    echo "<td>" . $row['campo2'] . "</td>";
-    echo "</tr>";
-    }
-    echo "</table>"; */
-
-
-
-    
+?>

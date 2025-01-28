@@ -115,21 +115,9 @@ if (!$con) {
                     <td class="izquierda"><?php echo $aguaje; ?></td>
                 </tr>
             </table>
-            <!--  <span class="card-value">Fecha</span>
-            <span class="card-text">
-            </span>
-            <i class="fas fa-calendar icon"></i> -->
-            <!-- <i class="fas fa-shrimp icon"></i> -->
-
         </div>
         <div class="kpi-card red">
-            <!-- <span class="card-value">Turno</span>
-            <span class="card-text">
-                <?php
-                echo $turno;
-                ?>
-            </span>
-            <i class="fas fa-stopwatch icon"></i> -->
+           
             <table class="custom-table custom-table-secondary">
                 <tr>
                     <td><strong>N° PLATAFORMAS</strong></td>
@@ -165,9 +153,7 @@ if (!$con) {
                     <td><?php echo $enGranja ?></td>
                 </tr>
             </table>
-            <!-- <span class="card-value">Aguaje</span>
-            <span class="card-text"><?php echo $aguaje ?> </span>
-            <i class="fas fa-moon icon"></i> -->
+           
         </div>
 
         <div class="kpi-card purple">
@@ -187,54 +173,51 @@ if (!$con) {
                     <td><?php echo $enPlanta ?></td>
                 </tr>
             </table>
-            <!-- <span class="card-value">Hora</span>
-            <span class="card-text">
-                <?php
-                //$DateAndTime = date('m-d-Y h:i:s a', time());  
-                date_default_timezone_set('America/Bogota');
-                echo date('H:i ', time());
-                //echo date('h:i a', time());
-                ?>
-            </span>
-            <i class="fas fa-clock icon"></i> -->
+            
         </div>
 
 
-        <!-- <div class="kpi-card red">
-                <span class="card-value">Total KG</span>
-                <span class="card-text">
-                    <?php
-                    //  echo number_format($totKilos,2); 
-                    ?>
-                </span>
-                <i class="fas fa-weight-hanging icon"></i>
-                
-            </div> -->
     </div>
-    <!-- <div class="titulo_tabla_dash">
-            <h2>Detalle Guìas de Pesca (CC x CC)</h2>
-            <h2 class="titulo_tabla_page">Pág #</h2>
-            <h2>1</h2>
-            <h2>De</h2>
-            <h2>5</h2>
-        </div> -->
+  
     <div id="tabla_registros">
 
         <!-- Aqui va la tabla -->
         <script type="text/javascript">
             let contador = 1;
+            
             $(document).ready(function () {
-                $.ajax({
-                    url: 'registrostabla.php',
-                    type: 'post',
-                    data: { contador: contador },
-                    success: function (data) {
-                        $('#tabla_registros').html(data);
+                cargarTabla();
+                $(document).on('click', 'a', function (event) {
+                    event.preventDefault(); 
+                    const numero = $(this).text().trim();
+                    const id = $(this).attr('id');
+                    console.log(id);
+                    if (id=="siguiente" || id=="anterior") {
+                        if (id=="siguiente") {
+                            cargarTabla();
+                        }
+                        else{
+                            if (contador>1) {
+                                contador = contador - 1;
+                                const numeroPaginas = $('#numeroPagi').val();
+                                if(contador<1){
+                                    contador = 1;
+                                }
+                                cargarTablaDatos(contador);
+                            }
+                        }
+                        
+                    }else{
+                        cargarTablaDatos(id);
                     }
                 });
             });
 
             setInterval(function () {
+                cargarTabla();
+            }, 8000);
+            function cargarTabla() {
+                const numeroPaginas = $('#numeroPagi').val();
                 $.ajax({
                     url: 'registrostabla.php',
                     type: 'post',
@@ -242,10 +225,24 @@ if (!$con) {
                     success: function (data) {
                         $('#tabla_registros').html(data);
                         contador += 1;
+                        if(contador>numeroPaginas){
+                            contador = 1;
+                        }
                     }
                 });
-            }, 8000);
-
+            }
+            function cargarTablaDatos(datos) {
+                const numeroPaginas = $('#numeroPagi').val();
+                console.log(numeroPaginas);
+                $.ajax({
+                    url: 'registrostabla.php',
+                    type: 'post',
+                    data: { contador: datos },
+                    success: function (data) {
+                        $('#tabla_registros').html(data);                        
+                    }
+                });
+            }
             function actualizar() {
                 contador = 1
                 location.reload(true);

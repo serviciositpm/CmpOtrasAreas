@@ -434,3 +434,54 @@ blockquote {
   height: auto;
   margin-left: 25%; /* Espacio entre el texto y la imagen */
 }
+
+.paginacion {
+  display: flex;
+  justify-content: center; /* Centra la paginación */
+  align-items: center;
+  margin-top: 20px; /* Espacio superior */
+  gap: 10px; /* Espaciado entre botones */
+}
+
+.paginacion a,
+.paginacion span {
+  display: inline-block;
+  padding: 8px 15px; /* Espaciado interno */
+  font-size: 14px;
+  color: #ffffff; /* Texto blanco */
+  background-color: #055053; /* Color principal */
+  border: 1px solid #055053; /* Bordes */
+  border-radius: 5px; /* Bordes redondeados */
+  text-decoration: none; /* Sin subrayado */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.paginacion a:hover {
+  background-color: #036567; /* Color de fondo al pasar el ratón */
+  color: #e5e5e5; /* Texto más claro */
+}
+
+.paginacion a.active {
+  background-color: #022831; /* Color más oscuro para la página activa */
+  font-weight: bold;
+  cursor: default;
+}
+
+.paginacion .disabled {
+  background-color: #cccccc; /* Color gris para botones desactivados */
+  color: #666666;
+  cursor: not-allowed; /* Cursor no permitido */
+}
+
+.paginacion a:first-child,
+.paginacion a:last-child {
+  font-weight: bold;
+}
+
+.paginacion span {
+  font-size: 16px; /* Tamaño de texto mayor para indicar la página */
+  font-weight: bold;
+}
+
+
+
