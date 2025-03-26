@@ -227,7 +227,7 @@
                     echo"<tr>";
                         echo"<th colspan='6' class='border-right-delimiter'>PROGRAMA PESCA</th>";
                         echo"<th colspan='4' class='border-right-delimiter'>GRANJA</th>";                        
-                        echo"<th colspan='3' class='border-right-delimiter'>PLANTA</th>";                        
+                        echo"<th colspan='4' class='border-right-delimiter'>PLANTA</th>";                        
                         echo"<th rowspan='1'></th>";                        
                     echo"</tr>";
                     echo"<tr>";
@@ -242,6 +242,7 @@
                         echo"<th class='ancho_celdas_normales'> LLEGADA   </th>";
                         echo"<th class='ancho_celdas_normales border-right-delimiter'>SALIDA </th>";
                         echo"<th class='ancho_celdas_normales'> ESTIMADA </th>";
+                        echo"<th class='ancho_celdas_normales'> KG REM. </th>";
                         echo"<th class='ancho_celdas_normales'> LLEGADA  </th>";
                         echo"<th class='ancho_celdas_normales border-right-delimiter'>PROGRAMADA</th>";
                         echo"<th class='ancho_celdas_normales'> STATUS </th>"; //23
@@ -280,6 +281,7 @@
                             echo"<td>".$mostrar['FecLlegCamTexto']."</td>";//Llegó a Granja
                             echo"<td>".$mostrar['FechaCamaroneraPlantaTexto']."</td>";//Salió de Granja
                             echo"<td>".$mostrar['FechaEstimadaLlegadaPlantaCalcTexto']."</td>";//Fecha Estimada Llegada Planta
+                            echo"<td>".$mostrar['TotalKilosRemitidos']."</td>";//Kilos Remitidos
                             echo"<td>".$mostrar['FechaRealLlegadaTexto']."</td>";//Llegó a Planta 
                             echo"<td>".$mostrar['FechaProgramadaLlegadaTexto']."</td>"; //Fec. Prog. Lleg.
                             if ($status  =='3'){
@@ -310,7 +312,7 @@
                     echo"<tr>";
                         echo"<th colspan='5' class='border-right-delimiter'>PROGRAMA PESCA</th>";
                         echo"<th colspan='4' class='border-right-delimiter'>GRANJA</th>";                        
-                        echo"<th colspan='3' class='border-right-delimiter'>PLANTA</th>";                        
+                        echo"<th colspan='4' class='border-right-delimiter'>PLANTA</th>";                        
                         echo"<th rowspan='1'></th>";                        
                     echo"</tr>";
                     echo"<tr>";
@@ -325,6 +327,7 @@
                         echo"<th class='ancho_celdas_normales'> LLEGADA   </th>";
                         echo"<th class='ancho_celdas_normales border-right-delimiter'>SALIDA </th>";
                         echo"<th class='ancho_celdas_normales'> ESTIMADA </th>";
+                        echo"<th class='ancho_celdas_normales'> KG REM. </th>";
                         echo"<th class='ancho_celdas_normales'> LLEGADA  </th>";
                         echo"<th class='ancho_celdas_normales border-right-delimiter'>PROGRAMADA</th>";
                         echo"<th class='ancho_celdas_normales'> STATUS </th>"; //23
