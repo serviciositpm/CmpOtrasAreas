@@ -60,8 +60,14 @@ if (!$con) {
                             Select IsNull(Count(*),0) From Vi_Guias_CMP Where FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo<>'' And FechaCamaroneraPlanta<>'' And  FechaRealLlegada='' --Ruta a Planta
                         )   'RutPlanta'                                                         ,
                         (
-                            Select IsNull(Count(*),0) From Vi_Guias_CMP Where FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo<>'' And FechaCamaroneraPlanta<>'' And  FechaRealLlegada<>'' --En Planta
+                            Select IsNull(Count(*),0) From Vi_Guias_CMP Where FechaRealLlegada<>'' --En Planta
                         )   'EnPlanta'                                                          ,
+                        (
+                            Select IsNull(dbo.Fn_Cmp_Devulve_Kg_Remitidos('TKR',''),0)	
+                        )'TotKgEnRuta'       ,
+                        (
+                            Select IsNull(dbo.Fn_Cmp_Devulve_Kg_Remitidos('TKP',''),0)	
+                        )'TotKgEnPlanta'     ,
                         Right('00' + Ltrim(Rtrim(Day(GetDate()))),2) + ' de '	+	Case Month(GetDate())
 																						When 1	Then 'Enero'
 																						When 2	Then 'Febrero'
@@ -76,7 +82,7 @@ if (!$con) {
 																						When 11	Then 'Noviembre'
 																						When 12	Then 'Diciembre'
 																					End  
-																				+ ' del '+ Convert(Character(4),Year(GetDate()))		'FechaActual'
+																				+ ' del '+ Convert(Character(4),Year(GetDate()))		'FechaActual'   
                         
 
                         From	PRPYAQ	With(NoLock)
@@ -93,6 +99,8 @@ if (!$con) {
             $enGranja = $muestra['EnGranja'];
             $rutaPlanta = $muestra['RutPlanta'];
             $enPlanta = $muestra['EnPlanta'];
+            $totalKgEnRuta = $muestra['TotKgEnRuta'];
+            $totalKgEnPlanta = $muestra['TotKgEnPlanta'];
 
         }
         ?>
@@ -161,16 +169,20 @@ if (!$con) {
                 <tr>
                     <td><strong>RETORNOS</strong></td>
                     <td>
-
+                    <td><strong>KG REMITIDOS</strong></td>
                     </td>
                 </tr>
                 <tr>
                     <td><strong>Ruta a Planta:</strong></td>
                     <td><?php echo $rutaPlanta ?></td>
+                    <td><strong>En Ruta:</strong></td>
+                    <td><?php echo $totalKgEnRuta ?></td>
                 </tr>
                 <tr>
                     <td><strong>En Planta:</strong></td>
                     <td><?php echo $enPlanta ?></td>
+                    <td><strong>En Planta:</strong></td>
+                    <td><?php echo $totalKgEnPlanta ?></td>
                 </tr>
             </table>
             

@@ -406,6 +406,10 @@ blockquote {
   color: white;
   font-weight: normal;
 }
+.custom-table-tercera td {
+  color: white!important;
+  font-weight: bold;
+}
 
 /* Personalización para la segunda tabla */
 .custom-table-secondary tr:nth-child(2) td {
