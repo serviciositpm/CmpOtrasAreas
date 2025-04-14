@@ -176,13 +176,13 @@ if (!$con) {
                     <td><strong>Ruta a Planta:</strong></td>
                     <td><?php echo $rutaPlanta ?></td>
                     <td><strong>En Ruta:</strong></td>
-                    <td><?php echo $totalKgEnRuta ?></td>
+                    <td><?php echo number_format($totalKgEnRuta, 2, '.', ',') ?></td>
                 </tr>
                 <tr>
                     <td><strong>En Planta:</strong></td>
                     <td><?php echo $enPlanta ?></td>
                     <td><strong>En Planta:</strong></td>
-                    <td><?php echo $totalKgEnPlanta ?></td>
+                    <td><?php echo number_format($totalKgEnPlanta, 2, '.', ',') ?></td>
                 </tr>
             </table>
             

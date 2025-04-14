@@ -260,6 +260,7 @@
                         $status             =   $mostrar['Status'];
                         $tipoPesca          =   $mostrar['TipoPesca'];
                         $tieneGps           =   $mostrar['tienGps'];
+                        $totKgRem           =   $mostrar['TotalKilosRemitidos'];
                         echo"<tr >";
                             if ($tieneGps==1){
                                 echo"<td><i class='fas fa-map-marker-alt gps'></i></td>";
@@ -281,7 +282,7 @@
                             echo"<td>".$mostrar['FecLlegCamTexto']."</td>";//Llegó a Granja
                             echo"<td>".$mostrar['FechaCamaroneraPlantaTexto']."</td>";//Salió de Granja
                             echo"<td>".$mostrar['FechaEstimadaLlegadaPlantaCalcTexto']."</td>";//Fecha Estimada Llegada Planta
-                            echo"<td>".$mostrar['TotalKilosRemitidos']."</td>";//Kilos Remitidos
+                            echo"<td>".number_format($totKgRem, 2, '.', ',')."</td>";//Kilos Remitidos
                             echo"<td>".$mostrar['FechaRealLlegadaTexto']."</td>";//Llegó a Planta 
                             echo"<td>".$mostrar['FechaProgramadaLlegadaTexto']."</td>"; //Fec. Prog. Lleg.
                             if ($status  =='3'){
