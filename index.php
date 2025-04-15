@@ -51,13 +51,13 @@ if (!$con) {
                             Select IsNull(Count(*),0) From Vi_Guias_CMP Where FechaSalidaPlanta=''
                         ) 'NoIniciados'                                                         ,
                         (
-                            Select IsNull(Count(*),0) From Vi_Guias_CMP Where FechaSalidaPlanta<>'' And FechaLlegadaCamaronera='' And FechaMovilListo='' And FechaCamaroneraPlanta='' And  FechaRealLlegada='' --Ruta Granja 
+                            Select IsNull(Count(*),0) From Vi_Guias_CMP Where FechaSalidaPlanta<>'' And FechaLlegadaCamaronera='' And FechaMovilListo='' And FechaCamaroneraPlanta='' And FechaRealLlegada='' --Ruta Granja 
                         ) 'RutaGranja'                                                          ,
                         (
-                            Select IsNull(Count(*),0) From Vi_Guias_CMP Where FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo='' And FechaCamaroneraPlanta='' And  FechaRealLlegada='' --En Granja
+                            Select IsNull(Count(*),0) From Vi_Guias_CMP Where FechaLlegadaCamaronera<>'' And FechaMovilListo='' And FechaCamaroneraPlanta='' And FechaRealLlegada='' --En Granja
                         )   'EnGranja'                                                          ,
                         (
-                            Select IsNull(Count(*),0) From Vi_Guias_CMP Where FechaSalidaPlanta<>'' And FechaLlegadaCamaronera<>'' And FechaMovilListo<>'' And FechaCamaroneraPlanta<>'' And  FechaRealLlegada='' --Ruta a Planta
+                            Select IsNull(Count(*),0) From Vi_Guias_CMP Where (FechaLlegadaCamaronera<>'' And FechaMovilListo<>'' And FechaCamaroneraPlanta='' And FechaRealLlegada='') Or (FechaCamaroneraPlanta<>'' And FechaRealLlegada='')     --Ruta a Planta
                         )   'RutPlanta'                                                         ,
                         (
                             Select IsNull(Count(*),0) From Vi_Guias_CMP Where FechaRealLlegada<>'' --En Planta
@@ -176,13 +176,13 @@ if (!$con) {
                     <td><strong>Ruta a Planta:</strong></td>
                     <td><?php echo $rutaPlanta ?></td>
                     <td><strong>En Ruta:</strong></td>
-                    <td><?php echo number_format($totalKgEnRuta, 2, '.', ',') ?></td>
+                    <td><?php echo number_format($totalKgEnRuta, 0, '.', ',') ?></td>
                 </tr>
                 <tr>
                     <td><strong>En Planta:</strong></td>
                     <td><?php echo $enPlanta ?></td>
                     <td><strong>En Planta:</strong></td>
-                    <td><?php echo number_format($totalKgEnPlanta, 2, '.', ',') ?></td>
+                    <td><?php echo number_format($totalKgEnPlanta, 0, '.', ',') ?></td>
                 </tr>
             </table>
             
