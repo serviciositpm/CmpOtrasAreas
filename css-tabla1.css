@@ -409,6 +409,7 @@ blockquote {
 .custom-table-tercera td {
   color: white!important;
   font-weight: bold;
+  
 }
 
 /* Personalización para la segunda tabla */
@@ -427,6 +428,7 @@ blockquote {
   text-align: left !important;
   
 }
+
 /* Asegurar que "No Iniciado" esté alineado a la izquierda */
 .custom-table-tercera tr:nth-child(3) td:first-child {
   text-align: left !important;
@@ -438,7 +440,15 @@ blockquote {
   height: auto;
   margin-left: 25%; /* Espacio entre el texto y la imagen */
 }
-
+.custom-table-tercera tr:nth-child(2) td:nth-child(3),
+.custom-table-tercera tr:nth-child(3) td:nth-child(3) {
+  text-align: left !important;
+}
+.custom-table-tercera tr:nth-child(2) td:nth-child(4),
+.custom-table-tercera tr:nth-child(3) td:nth-child(4) {
+  text-align: right !important;
+  font-weight: bold !important;
+}
 .paginacion {
   display: flex;
   justify-content: center; /* Centra la paginación */
