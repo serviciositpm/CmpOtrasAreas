@@ -5,14 +5,16 @@
         echo"Error al conectar a la base de datos"; 
         exit();               
     }
-    //Recibo el contador
-    $contador = $_POST['contador'];
+    // Recibo el contador y lo convierto a entero
+    $contador = isset($_POST['contador']) ? (int)$_POST['contador'] : 1;
     $cantFilas=0;
     //1.- Obtengo la cantidad de Registros
     $sqlCantRows = "Select IsNull(Count(*),0) Cantidad From Vi_Guias_CMP_Completa";
     $resultCantRows=sqlsrv_query($con,$sqlCantRows);
-    while($mostrarCantRows=sqlsrv_fetch_array($resultCantRows)){
-        $cantFilas=$mostrarCantRows['Cantidad'];
+    if($resultCantRows) {
+        while($mostrarCantRows=sqlsrv_fetch_array($resultCantRows)){
+            $cantFilas=$mostrarCantRows['Cantidad'];
+        }
     }
     //2.- Obtengo Cantidad de Páginas
     $per_page = 12;
@@ -57,16 +59,18 @@
         echo"</div>";
         // 6. Mostrar controles de paginación
         echo "<div id='paginas' class='titulo_tabla_dash paginacion'>";
-        if ($pagina > 1) {
-            echo "<a href=# id='anterior'>Anterior</a>";
-        }
-        for ($i = 1; $i <= $numeroPaginas; $i++) {
-            echo "<a href=# id='$i'>" . ($i == $pagina ? "<strong>$i</strong>" : $i) . "</a>";
-        }
-        if ($pagina < $numeroPaginas) {
-            echo "<a href=# id='siguiente'>Siguiente</a>";
-        }
-    echo "</div>";
+            echo "<a href='#' id='play-paginacion' class='btn-control-paginacion'><i class='fas fa-play'></i></a>";
+            echo "<a href='#' id='pause-paginacion' class='btn-control-paginacion'><i class='fas fa-pause'></i></a>";
+            if ($pagina > 1) {
+                echo "<a href=# id='anterior'>Anterior</a>";
+            }
+            for ($i = 1; $i <= $numeroPaginas; $i++) {
+                echo "<a href=# id='$i'>" . ($i == $pagina ? "<strong>$i</strong>" : $i) . "</a>";
+            }
+            if ($pagina < $numeroPaginas) {
+                echo "<a href=# id='siguiente'>Siguiente</a>";
+            }
+        echo "</div>";
 
         $sql="  Select  *                                                                                                                                       
                 From Vi_Guias_CMP_Completa 

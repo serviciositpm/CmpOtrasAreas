@@ -28,7 +28,10 @@ if (!$con) {
             <h2 class="titulo_principal">
                 CENTRO MONITOREO DE PESCAS
             </h2>
-            
+           <!--  <div class="controles-automaticos">
+                <button id="play" class="btn-control" title="Iniciar paginado automático"><i class="fas fa-play"></i></button>
+                <button id="pause" class="btn-control" title="Pausar paginado automático"><i class="fas fa-pause"></i></button>
+            </div> -->
         </div>
         <div class="imagen_derecha">
             <img src="img/logo_CMP.png" alt="Imagen derecha">
@@ -192,75 +195,108 @@ if (!$con) {
     </div>
   
     <div id="tabla_registros">
-
         <!-- Aqui va la tabla -->
         <script type="text/javascript">
             let contador = 1;
+            let intervalo;
+            let paginadoActivo = true;
             
             $(document).ready(function () {
-                cargarTabla();
-                $(document).on('click', 'a', function (event) {
+                // Cargar tabla inicial y empezar paginado automático
+                cargarTablaDatos(1);
+                iniciarPaginado();
+                
+                // Manejar clicks en TODOS los botones de paginación (incluyendo play/pause)
+                $(document).on('click', '#paginas a', function (event) {
                     event.preventDefault(); 
-                    const numero = $(this).text().trim();
                     const id = $(this).attr('id');
-                    console.log(id);
-                    if (id=="siguiente" || id=="anterior") {
-                        if (id=="siguiente") {
-                            cargarTabla();
-                        }
-                        else{
-                            if (contador>1) {
-                                contador = contador - 1;
-                                const numeroPaginas = $('#numeroPagi').val();
-                                if(contador<1){
-                                    contador = 1;
-                                }
-                                cargarTablaDatos(contador);
-                            }
-                        }
-                        
-                    }else{
-                        cargarTablaDatos(id);
+                    
+                    // Manejar botones de control play/pause
+                    if (id === "play-paginacion") {
+                        iniciarPaginado();
+                        return;
                     }
+                    if (id === "pause-paginacion") {
+                        detenerPaginado();
+                        return;
+                    }
+                    
+                    // Manejar paginación normal
+                    const numeroPaginas = parseInt($('#numeroPagi').val());
+                    
+                    if (id === "siguiente") {
+                        contador = obtenerPaginaActual() + 1;
+                        if(contador > numeroPaginas) {
+                            contador = 1;
+                        }
+                    } 
+                    else if (id === "anterior") {
+                        contador = obtenerPaginaActual() - 1;
+                        if(contador < 1) {
+                            contador = numeroPaginas;
+                        }
+                    } 
+                    else if (!isNaN(id)) { // Es un número de página
+                        contador = parseInt(id);
+                    }
+                    
+                    cargarTablaDatos(contador);
                 });
             });
 
-            setInterval(function () {
-                cargarTabla();
-            }, 8000);
-            function cargarTabla() {
-                const numeroPaginas = $('#numeroPagi').val();
-                $.ajax({
-                    url: 'registrostabla.php',
-                    type: 'post',
-                    data: { contador: contador },
-                    success: function (data) {
-                        $('#tabla_registros').html(data);
-                        contador += 1;
-                        if(contador>numeroPaginas){
+            function obtenerPaginaActual() {
+                // Obtiene la página actual mirando qué número está en strong
+                const paginaActual = $('.paginacion strong').text();
+                return parseInt(paginaActual) || 1;
+            }
+
+            function iniciarPaginado() {
+                if (!intervalo) {
+                    intervalo = setInterval(function () {
+                        const numeroPaginas = parseInt($('#numeroPagi').val());
+                        contador = obtenerPaginaActual() + 1;
+                        if(contador > numeroPaginas) {
                             contador = 1;
                         }
-                    }
-                });
+                        cargarTablaDatos(contador);
+                    }, 8000);
+                    paginadoActivo = true;
+                    $('#play-paginacion').hide();
+                    $('#pause-paginacion').show();
+                }
             }
-            function cargarTablaDatos(datos) {
-                const numeroPaginas = $('#numeroPagi').val();
-                console.log(numeroPaginas);
+            
+            function detenerPaginado() {
+                if (intervalo) {
+                    clearInterval(intervalo);
+                    intervalo = null;
+                    paginadoActivo = false;
+                    $('#play-paginacion').show();
+                    $('#pause-paginacion').hide();
+                }
+            }
+            
+            function cargarTablaDatos(pagina) {
                 $.ajax({
                     url: 'registrostabla.php',
                     type: 'post',
-                    data: { contador: datos },
+                    data: { contador: pagina },
                     success: function (data) {
-                        $('#tabla_registros').html(data);                        
+                        $('#tabla_registros').html(data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error al cargar la tabla:", error);
                     }
                 });
             }
+            
             function actualizar() {
-                contador = 1
+                contador = 1;
                 location.reload(true);
             }
-            //Función para actualizar cada 5 segundos(5000 milisegundos)
-            setInterval("actualizar()", 120000);
+            
+            // Actualizar toda la página cada 2 minutos (120000 ms)
+            setInterval(actualizar, 360000);
         </script>
     </div>
 

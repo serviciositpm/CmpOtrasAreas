@@ -497,5 +497,46 @@ blockquote {
   font-weight: bold;
 }
 
+/* Estilos para los controles de play/pause en la paginación */
+/* .controles-paginacion {
+    display: inline-flex;
+    gap: 5px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
 
+.btn-control-paginacion {
+    background: #f8f9fa;
+    color: #495057;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 5px 8px;
+    cursor: pointer;
+    font-size: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+} */
 
+/* .btn-control-paginacion:hover {
+    background: #e9ecef;
+    border-color: #ced4da;
+}
+
+.btn-control-paginacion i {
+    font-size: 12px;
+}
+
+#pause-paginacion {
+    display: none; 
+}
+
+.paginacion-auto-activa #play-paginacion {
+    display: none;
+}
+
+.paginacion-auto-activa #pause-paginacion {
+    display: inline-block;
+} */
+/* #pause-paginacion { display: none; }
+.paginacion-auto-activa #play-paginacion { display: none; }
+.paginacion-auto-activa #pause-paginacion { display: inline-block; } */
