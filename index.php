@@ -54,16 +54,16 @@ if (!$con) {
                             Select IsNull(Count(*),0) From Vi_Guias_CMP_Completa Where Status='5' --No Iniciado
                         ) 'NoIniciados'                                                         ,
                         (
-                            Select IsNull(Count(*),0) From Vi_Guias_CMP_Completa Where Status='3' --Ruta Granja 
+                            Select IsNull(Count(*),0) From Vi_Guias_CMP_Completa Where Status='4' --Ruta Granja 
                         ) 'RutaGranja'                                                          ,
                         (
-                            Select IsNull(Count(*),0) From Vi_Guias_CMP_Completa Where  Status='2' --En Granja
+                            Select IsNull(Count(*),0) From Vi_Guias_CMP_Completa Where  Status='3' --En Granja
                         )   'EnGranja'                                                          ,
                         (
-                            Select IsNull(Count(*),0) From Vi_Guias_CMP_Completa Where Status='1'     --Ruta a Planta
+                            Select IsNull(Count(*),0) From Vi_Guias_CMP_Completa Where Status='2'     --Ruta a Planta
                         )   'RutPlanta'                                                         ,
                         (
-                            Select IsNull(Count(*),0) From Vi_Guias_CMP_Completa Where Status='4'  --En Planta
+                            Select IsNull(Count(*),0) From Vi_Guias_CMP_Completa Where Status='1'  --En Planta
                         )   'EnPlanta'                                                          ,
                         (
                             Select IsNull(dbo.Fn_Cmp_Devulve_Kg_Remitidos('TKR',''),0)	

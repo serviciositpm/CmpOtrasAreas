@@ -141,16 +141,16 @@
                             echo"<td>".number_format($totKgRem, 0, '.', ',')."</td>";//Kilos Remitidos
                             echo"<td>".$mostrar['FechaRealLlegadaTexto']."</td>";//Llegó a Planta 
                             echo"<td>".$mostrar['FechaProgramadaLlegadaTexto']."</td>"; //Fec. Prog. Lleg.
-                            if ($status  =='3'){
+                            if ($status  =='4'){
                                 echo"<td class='status'><span class='haciacamaronera'>Ruta a Granja</span></td>";  
                             }
-                            if ($status  =='2'){
+                            if ($status  =='3'){
                                 echo"<td class='status'><span class='llegocamaronera'>En Granja</span></td>";  
                             }
-                            if ($status  =='1'){
+                            if ($status  =='2'){
                                 echo"<td class='status'><span class='haciaplanta'>Ruta a Planta</span></td>";  
                             }
-                            if ($status  =='4'){
+                            if ($status  =='1'){
                                 echo"<td class='status'><span class='active'>En Planta</span></td>";  
                             }
                                //12        
