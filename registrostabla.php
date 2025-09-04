@@ -82,6 +82,7 @@
                 echo"<thead>";
                     echo"<tr>";
                         echo"<th colspan='6' class='border-right-delimiter'>PROGRAMA PESCA</th>";
+                        echo"<th colspan='1' class='border-right-delimiter'>MUELLE</th>";
                         echo"<th colspan='4' class='border-right-delimiter'>GRANJA</th>";                        
                         echo"<th colspan='4' class='border-right-delimiter'>PLANTA</th>";                        
                         echo"<th rowspan='1'></th>";                        
@@ -93,6 +94,7 @@
                         echo"<th class='ancho_celdas_normales'> N° GUÍA             </th>";
                         echo"<th class='ancho_celdas_normales'> GRANJA          </th>";
                         echo"<th class='ancho_celdas_normales border-right-delimiter'> SALIDA REAL   </th>";
+                        echo"<th class='ancho_celdas_normales border-right-delimiter'> SALIDA</th>";
                         echo"<th class='ancho_celdas_normales'> PROGRAMADA     </th>";
                         echo"<th class='ancho_celdas_normales'> ESTIMADA   </th>";
                         echo"<th class='ancho_celdas_normales'> LLEGADA   </th>";
@@ -133,11 +135,14 @@
                             echo"<td>".$mostrar['NroGuia']."</td>";
                             echo"<td>".$mostrar['camaronera']."</td>";
                             echo"<td>".$mostrar['FecSalPlaTexto']."</td>"; //Salió de Planta 
+                            echo"<td>".$mostrar['FechaSalidaMuelleTexto']."</td>"; //Salida Muelle
                             echo"<td>".$mostrar['FecProgTexto']."</td>"; //Fec. Programada
-                            echo"<td>".$mostrar['FechaEstimadaLlegadaCamaroneraCalcTexto']."</td>"; //Fecha Estimada Llegada Camaronera
+                            echo"<td>".$mostrar['fechaEstimadallegadaCamaroneraNewTexto']."</td>"; //Fecha Estimada Llegada Camaronera
+                            /* echo"<td>".$mostrar['FechaEstimadaLlegadaCamaroneraCalcTexto']."</td>"; //Fecha Estimada Llegada Camaronera */
                             echo"<td>".$mostrar['FecLlegCamTexto']."</td>";//Llegó a Granja
                             echo"<td>".$mostrar['FechaCamaroneraPlantaTexto']."</td>";//Salió de Granja
-                            echo"<td>".$mostrar['FechaEstimadaLlegadaPlantaCalcTexto']."</td>";//Fecha Estimada Llegada Planta
+                            echo"<td>".$mostrar['fechaEstimadaLlegadaPlantaNewTexto']."</td>"; //Fecha Estimada LLegada Planta
+                            /* echo"<td>".$mostrar['FechaEstimadaLlegadaPlantaCalcTexto']."</td>";//Fecha Estimada Llegada Planta */
                             echo"<td>".number_format($totKgRem, 0, '.', ',')."</td>";//Kilos Remitidos
                             echo"<td>".$mostrar['FechaRealLlegadaTexto']."</td>";//Llegó a Planta 
                             echo"<td>".$mostrar['FechaProgramadaLlegadaTexto']."</td>"; //Fec. Prog. Lleg.
