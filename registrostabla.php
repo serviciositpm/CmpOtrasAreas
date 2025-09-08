@@ -81,8 +81,8 @@
         echo"<table>";
                 echo"<thead>";
                     echo"<tr>";
-                        echo"<th colspan='6' class='border-right-delimiter'>PROGRAMA PESCA</th>";
-                        echo"<th colspan='1' class='border-right-delimiter'>MUELLE</th>";
+                        echo"<th colspan='7' class='border-right-delimiter'>PROGRAMA PESCA</th>";
+                        /* echo"<th colspan='1' class='border-right-delimiter'>MUELLE</th>"; */
                         echo"<th colspan='4' class='border-right-delimiter'>GRANJA</th>";                        
                         echo"<th colspan='4' class='border-right-delimiter'>PLANTA</th>";                        
                         echo"<th rowspan='1'></th>";                        
@@ -93,8 +93,8 @@
                         echo"<th class='ancho_celdas_normales'> N° PESCA       </th>";
                         echo"<th class='ancho_celdas_normales'> N° GUÍA             </th>";
                         echo"<th class='ancho_celdas_normales'> GRANJA          </th>";
-                        echo"<th class='ancho_celdas_normales border-right-delimiter'> SALIDA REAL   </th>";
-                        echo"<th class='ancho_celdas_normales border-right-delimiter'> SALIDA</th>";
+                        echo"<th class='ancho_celdas_normales'> SALIDA REAL   </th>";
+                        echo"<th class='ancho_celdas_normales border-right-delimiter'> SALIDA MUELLE</th>";
                         echo"<th class='ancho_celdas_normales'> PROGRAMADA     </th>";
                         echo"<th class='ancho_celdas_normales'> ESTIMADA   </th>";
                         echo"<th class='ancho_celdas_normales'> LLEGADA   </th>";
